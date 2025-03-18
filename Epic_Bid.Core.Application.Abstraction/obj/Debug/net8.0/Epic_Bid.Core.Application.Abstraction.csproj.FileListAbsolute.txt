@@ -1,0 +1,16 @@
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\bin\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.deps.json
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\bin\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.dll
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\bin\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.pdb
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\bin\Debug\net8.0\Epic_Bid.Shared.dll
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\bin\Debug\net8.0\Epic_Bid.Shared.pdb
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.csproj.AssemblyReference.cache
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.GeneratedMSBuildEditorConfig.editorconfig
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.AssemblyInfoInputs.cache
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.AssemblyInfo.cs
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.csproj.CoreCompileInputs.cache
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.sourcelink.json
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.EB21AC68.Up2Date
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.dll
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\refint\Epic_Bid.Core.Application.Abstraction.dll
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\Epic_Bid.Core.Application.Abstraction.pdb
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Core.Application.Abstraction\obj\Debug\net8.0\ref\Epic_Bid.Core.Application.Abstraction.dll

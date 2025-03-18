@@ -1,0 +1,6 @@
+@Epic_Bid.Apis_HostAddress = http://localhost:5144
+
+GET {{Epic_Bid.Apis_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
