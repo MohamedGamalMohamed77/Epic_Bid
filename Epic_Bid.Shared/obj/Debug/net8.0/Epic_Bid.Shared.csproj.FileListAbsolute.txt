@@ -1,0 +1,12 @@
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\bin\Debug\net8.0\Epic_Bid.Shared.deps.json
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\bin\Debug\net8.0\Epic_Bid.Shared.dll
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\bin\Debug\net8.0\Epic_Bid.Shared.pdb
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\Epic_Bid.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\Epic_Bid.Shared.AssemblyInfoInputs.cache
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\Epic_Bid.Shared.AssemblyInfo.cs
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\Epic_Bid.Shared.csproj.CoreCompileInputs.cache
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\Epic_Bid.Shared.sourcelink.json
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\Epic_Bid.Shared.dll
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\refint\Epic_Bid.Shared.dll
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\Epic_Bid.Shared.pdb
+C:\Epic_Bid\Epic_Bid\Epic_Bid.Shared\obj\Debug\net8.0\ref\Epic_Bid.Shared.dll

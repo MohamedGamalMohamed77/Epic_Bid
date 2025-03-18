@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Epic_Bid.Apis.props" />
+</Project>
