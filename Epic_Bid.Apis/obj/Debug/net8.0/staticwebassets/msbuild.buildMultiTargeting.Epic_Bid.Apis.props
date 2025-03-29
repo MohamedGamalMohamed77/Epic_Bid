@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Epic_Bid.Apis.props" />
-</Project>
