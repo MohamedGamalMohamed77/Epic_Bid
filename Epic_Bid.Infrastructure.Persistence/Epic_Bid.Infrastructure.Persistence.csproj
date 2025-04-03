@@ -16,4 +16,12 @@
     <ProjectReference Include="..\Epic_Bid.Core.Domain\Epic_Bid.Core.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Generic_Reposetories\" />
+    <Folder Include="UnitOfWork\" />
+    <Folder Include="_Identity\" />
+    <Folder Include="_Data\" />
+    <Folder Include="_Common\" />
+  </ItemGroup>
+
 </Project>
