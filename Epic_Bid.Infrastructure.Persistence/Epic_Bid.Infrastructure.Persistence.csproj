@@ -9,6 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -18,10 +22,12 @@
 
   <ItemGroup>
     <Folder Include="Generic_Reposetories\" />
-    <Folder Include="UnitOfWork\" />
-    <Folder Include="_Identity\" />
     <Folder Include="_Data\" />
+    <Folder Include="UnitOfWork\" />
     <Folder Include="_Common\" />
+    <Folder Include="_Identity\Migrations\" />
+    <Folder Include="_Identity\Interceptors\" />
+    <Folder Include="_Identity\Seeds\" />
   </ItemGroup>
 
 </Project>

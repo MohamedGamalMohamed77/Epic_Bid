@@ -30,7 +30,7 @@ namespace Epic_Bid.API.Middlewares
 
                 if (_Env.IsDevelopment())
                 {
-                    var Response = new ApiExceptionResponse(500, ex.Message, ex.StackTrace.ToString());
+                    var Response = new ApiExceptionResponse(500, ex.Message, ex.StackTrace!.ToString());
                     var option = new JsonSerializerOptions
                     {
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
