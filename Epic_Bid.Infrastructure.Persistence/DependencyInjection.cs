@@ -1,5 +1,5 @@
-﻿using Epic_Bid.Core.Domain.Entities;
-using Epic_Bid.Infrastructure.Persistence._Identity;
+﻿using Epic_Bid.Core.Domain.Contracts.Persistence;
+using Epic_Bid.Core.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +18,7 @@ namespace Epic_Bid.Infrastructure.Persistence
 		{
 
 			#region IdentityDbContext
+			// we made this instead of we write in OnConfiguring method 
 			services.AddDbContext<StoreIdentityDbContext>((options) =>
 			{
 				options
@@ -25,7 +26,7 @@ namespace Epic_Bid.Infrastructure.Persistence
 				.UseSqlServer(Configuration.GetConnectionString("StoreIdentityContext"));
 			});
 			
-			//services.AddScoped(typeof(IStoreIdentityDbIntializer), typeof(StoreIdentityDbIntializer));
+			services.AddScoped(typeof(IStoreIdentityDbIntializer), typeof(StoreIdentityDbIntializer));
 
 			#endregion
 
