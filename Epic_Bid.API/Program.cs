@@ -45,8 +45,33 @@ namespace Epic_Bid.API
 
 				};
 			});
-			
 
+			builder.Services.AddIdentity<ApplicationUser, IdentityRole>((IdentityOptions) =>
+			{
+				IdentityOptions.SignIn.RequireConfirmedAccount = true;
+				IdentityOptions.SignIn.RequireConfirmedEmail = true;
+				IdentityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+
+
+				IdentityOptions.Password.RequiredUniqueChars = 2;
+				IdentityOptions.Password.RequireNonAlphanumeric = true;
+				IdentityOptions.Password.RequiredLength = 6;
+				IdentityOptions.Password.RequireLowercase = true;
+				IdentityOptions.Password.RequireUppercase = true;
+				IdentityOptions.Password.RequireDigit = true;
+
+				IdentityOptions.User.RequireUniqueEmail = true;
+
+				IdentityOptions.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromMinutes(10);
+				IdentityOptions.Lockout.AllowedForNewUsers=true;
+				IdentityOptions.Lockout.MaxFailedAccessAttempts = 5;
+
+
+
+			}).
+			AddEntityFrameworkStores<StoreIdentityDbContext>();
+			
+			builder.Services.AddPersistenceServices(builder.Configuration);
 
 			#endregion
 

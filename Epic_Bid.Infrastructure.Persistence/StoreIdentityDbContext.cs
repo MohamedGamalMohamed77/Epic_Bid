@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Epic_Bid.Infrastructure.Persistence._Identity
+namespace Epic_Bid.Infrastructure.Persistence
 {
     public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser>
     {
