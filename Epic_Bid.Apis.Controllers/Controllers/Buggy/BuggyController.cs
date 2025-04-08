@@ -1,5 +1,5 @@
 ﻿using Epic_Bid.Apis.Controllers.Controllers.Base;
-using Epic_Bid.Apis.Controllers.Errors;
+using Epic_Bid.Apis.Controllers.Controllers.Errors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
