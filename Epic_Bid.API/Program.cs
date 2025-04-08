@@ -1,6 +1,6 @@
 using Epic_Bid.API.Middlewares;
 using Epic_Bid.Infrastructure.Persistence;
-using Epic_Bid.Apis.Controllers.Errors;
+using Epic_Bid.Apis.Controllers.Controllers.Errors;
 using Microsoft.AspNetCore.Mvc;
 using Epic_Bid.Apis.Controllers;
 using Epic_Bid.Core.Domain.Entities;
@@ -84,7 +84,7 @@ namespace Epic_Bid.API
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
-				app.UseMiddleware<ExceptionMiddleWare>();
+				app.UseMiddleware<ExceptionHandlerMiddleWare>();
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
