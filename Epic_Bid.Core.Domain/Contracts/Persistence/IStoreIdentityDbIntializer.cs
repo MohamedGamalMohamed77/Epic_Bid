@@ -8,7 +8,7 @@ namespace Epic_Bid.Core.Domain.Contracts.Persistence
 {
 	public interface IStoreIdentityDbIntializer
 	{
-		Task IntializeAsync();
+		Task InitializeAsync();
 
 		Task SeedAsync();
 	}

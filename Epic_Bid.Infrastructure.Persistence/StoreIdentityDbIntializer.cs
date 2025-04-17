@@ -13,7 +13,7 @@ namespace Epic_Bid.Infrastructure.Persistence
 {
 	public  class StoreIdentityDbIntializer(StoreIdentityDbContext _dbcontext,UserManager<ApplicationUser> _userManager) : IStoreIdentityDbIntializer
 	{
-		public async Task IntializeAsync()
+		public async Task InitializeAsync()
 		{
 			var pendingMigrations =await _dbcontext.Database.GetPendingMigrationsAsync();
 

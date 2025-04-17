@@ -22,12 +22,10 @@
 
   <ItemGroup>
     <Folder Include="Generic_Reposetories\" />
-    <Folder Include="_Data\" />
     <Folder Include="UnitOfWork\" />
     <Folder Include="_Common\" />
-    <Folder Include="_Identity\Migrations\" />
-    <Folder Include="_Identity\Interceptors\" />
-    <Folder Include="_Identity\Seeds\" />
+    <Folder Include="_IdentityAndData\Interceptors\" />
+    <Folder Include="_IdentityAndData\Seeds\" />
   </ItemGroup>
 
 </Project>

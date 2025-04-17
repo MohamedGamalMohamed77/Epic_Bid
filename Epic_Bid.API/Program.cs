@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Epic_Bid.Apis.Controllers;
 using Epic_Bid.Core.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Builder;
+using Epic_Bid.Core.Application;
+using Epic_Bid.API.Extensions;
 
 namespace Epic_Bid.API
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
 
 			var builder = WebApplication.CreateBuilder(args);
@@ -20,88 +23,66 @@ namespace Epic_Bid.API
 
 
 			// Add services to the container.
-			
+
 			builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
-			builder.Services.Configure<ApiBehaviorOptions>(options =>
-			{
-				options.InvalidModelStateResponseFactory = (actioncontext) =>
+			builder.Services
+				.AddControllers()
+				.ConfigureApiBehaviorOptions(options =>
 				{
-					var errors = actioncontext.ModelState
-									.Where(e => e.Value?.Errors.Count > 0)
-									.SelectMany(p => p.Value!.Errors)
-									.Select(E => E.ErrorMessage)
-									.ToArray();
-
-					var validationerrormessage = new ApiValidationErrorResponse()
+					options.SuppressModelStateInvalidFilter = false;
+					options.InvalidModelStateResponseFactory = (actionContext) =>
 					{
-						Errors = errors
+						var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
+									   .Select(P => new ApiValidationErrorResponse.ValidationError()
+									   {
+										   Field = P.Key,
+										   Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
+									   });
+						return new BadRequestObjectResult(new ApiValidationErrorResponse()
+						{
+							Errors = errors
+						});
 					};
-					return new BadRequestObjectResult(validationerrormessage);
+				});
 
-				};
-			});
+			builder.Services.AddApplicationServices();
 
-			builder.Services.AddIdentity<ApplicationUser, IdentityRole>((IdentityOptions) =>
-			{
-				IdentityOptions.SignIn.RequireConfirmedAccount = true;
-				IdentityOptions.SignIn.RequireConfirmedEmail = true;
-				IdentityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-
-
-				IdentityOptions.Password.RequiredUniqueChars = 2;
-				IdentityOptions.Password.RequireNonAlphanumeric = true;
-				IdentityOptions.Password.RequiredLength = 6;
-				IdentityOptions.Password.RequireLowercase = true;
-				IdentityOptions.Password.RequireUppercase = true;
-				IdentityOptions.Password.RequireDigit = true;
-
-				IdentityOptions.User.RequireUniqueEmail = true;
-
-				IdentityOptions.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromMinutes(10);
-				IdentityOptions.Lockout.AllowedForNewUsers=true;
-				IdentityOptions.Lockout.MaxFailedAccessAttempts = 5;
-
-
-
-			}).
-			AddEntityFrameworkStores<StoreIdentityDbContext>();
-			
 			builder.Services.AddPersistenceServices(builder.Configuration);
-
+			builder.Services.AddIdentityServices(builder.Configuration);
 			#endregion
 
 
 			var app = builder.Build();
-			
-			
-			
+
+			#region Update Databases Initialization
+
+			await app.InitializeAsync();
+
+			#endregion
+
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
-				app.UseMiddleware<ExceptionHandlerMiddleWare>();
+				app.UseMiddleware<ExceptionHandlerMiddleware>();
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
-			
-	
+
+
 			app.UseHttpsRedirection();
-            
-			
+
+
 			app.UseStatusCodePagesWithReExecute("/errors/{0}");
-            
-		
-			
 			app.UseStaticFiles();
 
-
+			app.UseAuthentication();
 			app.UseAuthorization();
-
 
 			app.MapControllers();
 

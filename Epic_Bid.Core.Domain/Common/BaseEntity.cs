@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Core.Domain.Common
 {
-	public abstract	class BaseEntity<TKey> where TKey : IEquatable<TKey>
+	public abstract	class BaseEntity
 	{
-        public  TKey Id { get; set; }
+        public  int Id { get; set; }
 
     }
 }

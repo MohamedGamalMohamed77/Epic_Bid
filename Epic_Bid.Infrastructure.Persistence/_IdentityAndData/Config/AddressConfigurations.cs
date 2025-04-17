@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epic_Bid.Infrastructure.Persistence._Identity.Config
+namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
 {
 	public class AddressConfigurations : IEntityTypeConfiguration<Address>
 	{
