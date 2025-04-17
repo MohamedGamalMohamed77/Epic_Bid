@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epic_Bid.Infrastructure.Persistence._Identity.Config
+namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
 {
 	public class ApplicationUserConfigurations : IEntityTypeConfiguration<ApplicationUser>
 	{
@@ -16,7 +16,7 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Config
 			builder.Property(U => U.DisplayName)
 				.HasColumnType("varchar")
 				.HasMaxLength(100)
-				.IsRequired();
+				.IsRequired(true);
 
 			builder.HasOne(U => U.Address)
 				.WithOne(A => A.User)

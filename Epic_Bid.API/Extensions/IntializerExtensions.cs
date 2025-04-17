@@ -1,11 +1,12 @@
 ﻿using Epic_Bid.Core.Domain.Contracts.Persistence;
+using Epic_Bid.Infrastructure.Persistence;
 using Microsoft.Extensions.Logging;
 
 namespace Epic_Bid.API.Extensions
 {
 	public static class  IntializerExtensions
 	{
-		public static async Task<WebApplication> IntializeAsync(this WebApplication app)
+		public static async Task<WebApplication> InitializeAsync(this WebApplication app)
 		{ 
 
 			using var scope = app.Services.CreateAsyncScope();
@@ -17,7 +18,7 @@ namespace Epic_Bid.API.Extensions
 			try
 			{
 
-			  await	storeIdentityIntializer.IntializeAsync();
+			  await	storeIdentityIntializer.InitializeAsync();
 			  await	storeIdentityIntializer.SeedAsync();
 			
 			
