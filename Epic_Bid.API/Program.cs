@@ -5,9 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Epic_Bid.Apis.Controllers;
 using Epic_Bid.Core.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Builder;
-using Epic_Bid.Core.Application;
+using Stripe;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.API.Extensions;
+using Epic_Bid.Infrastructure.Persistence._Identity.Config;
+using Epic_Bid.Core.Application;
 
 namespace Epic_Bid.API
 {
@@ -51,23 +55,20 @@ namespace Epic_Bid.API
 				});
 
 			builder.Services.AddApplicationServices();
-
+			
 			builder.Services.AddPersistenceServices(builder.Configuration);
 			builder.Services.AddIdentityServices(builder.Configuration);
 			#endregion
 
 
 			var app = builder.Build();
-
-			#region Update Databases Initialization
-
-			await app.InitializeAsync();
-
-			#endregion
+            #region Update DataBase Initializer
+            await app.InitializeAsync();
+            #endregion
 
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
 			{
 				app.UseMiddleware<ExceptionHandlerMiddleware>();
 				app.UseSwagger();

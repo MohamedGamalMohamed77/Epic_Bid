@@ -13,16 +13,17 @@ namespace Epic_Bid.API.Extensions
 			var  services = scope.ServiceProvider;
 
 			var storeIdentityIntializer = services.GetRequiredService<IStoreIdentityDbIntializer>() ;
-
-			var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 			try
 			{
+                // this is the place where we apply the migrations
+                await storeIdentityIntializer.InitializeAsync();
+				await storeIdentityIntializer.SeedAsync();
 
-			  await	storeIdentityIntializer.InitializeAsync();
-			  await	storeIdentityIntializer.SeedAsync();
-			
-			
-			}
+                
+
+
+            }
 			catch (Exception ex) 
 			{
 				var logger = loggerFactory.CreateLogger<Program>();

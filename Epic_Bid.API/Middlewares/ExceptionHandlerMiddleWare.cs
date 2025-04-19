@@ -1,7 +1,6 @@
 ﻿using Epic_Bid.Apis.Controllers.Controllers.Errors;
 using Epic_Bid.Core.Application.Exceptions;
 using System.Net;
-using System.Text.Json;
 
 namespace Epic_Bid.API.Middlewares
 {

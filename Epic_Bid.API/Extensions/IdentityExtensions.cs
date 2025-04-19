@@ -1,8 +1,12 @@
 ﻿using Epic_Bid.Core.Application.Abstraction.Models.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
+using Epic_Bid.Core.Application.Abstraction.Services.Role;
 using Epic_Bid.Core.Application.Services.Auth;
+using Epic_Bid.Core.Application.Services.Role;
 using Epic_Bid.Core.Domain.Entities;
+using Epic_Bid.Core.Domain.Entities.Roles;
 using Epic_Bid.Infrastructure.Persistence;
+using Epic_Bid.Infrastructure.Persistence._Identity.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +25,7 @@ namespace Epic_Bid.API.Extensions
 
 
 
-			services.AddIdentity<ApplicationUser, IdentityRole>((IdentityOptions) =>
+			services.AddIdentity<ApplicationUser, AppRole>((IdentityOptions) =>
 			{
 				#region Sign In
 				//IdentityOptions.SignIn.RequireConfirmedAccount = true;
@@ -49,7 +53,10 @@ namespace Epic_Bid.API.Extensions
 
 			}).
 			AddEntityFrameworkStores<StoreIdentityDbContext>();
-			services.AddAuthentication((authenticationOptions) =>
+
+			
+                
+            services.AddAuthentication((authenticationOptions) =>
 			{
 				authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,8 +80,11 @@ namespace Epic_Bid.API.Extensions
 				});
 
 			services.AddScoped(typeof(IAuthService), typeof(AuthService));
-
-			services.AddTransient(typeof(IEmailService), typeof(EmailService));
+            // Add IRoleService 
+            services.AddScoped(typeof(IRoleService), typeof(RoleService));
+            // IUserService
+            services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddTransient(typeof(IEmailService), typeof(EmailService));
 			services.AddScoped(typeof(Func<IAuthService>), (serviceProvider) =>
 			{
 				return  () => serviceProvider.GetRequiredService<IAuthService>();
