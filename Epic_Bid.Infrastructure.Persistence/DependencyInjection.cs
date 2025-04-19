@@ -1,5 +1,6 @@
 ﻿using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.Core.Domain.Entities;
+using Epic_Bid.Infrastructure.Persistence._Identity.Config;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,16 +23,18 @@ namespace Epic_Bid.Infrastructure.Persistence
 			services.AddDbContext<StoreIdentityDbContext>((options) =>
 			{
 				options
-				.UseLazyLoadingProxies()
+				
 				.UseSqlServer(Configuration.GetConnectionString("StoreIdentityContext"));
 			});
 			
 			services.AddScoped(typeof(IStoreIdentityDbIntializer), typeof(StoreIdentityDbIntializer));
 
-			#endregion
+            #endregion
 
+          
+			
 
-			return services;
+            return services;
 		}
 
 	}

@@ -66,6 +66,34 @@ namespace Epic_Bid.Core.Application.Services.Auth
 			return addressDto;
 
 		}
+
+		///public async Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto)
+		//{
+		//    var address = mapper.Map<Address>(addressDto);
+
+		//    var user = await userManager.FindUserWithAddress(claimsPrincipal);
+
+		//    // 🟢 لو العنوان موجود، استخدم الـ Id القديم
+		//    if (user?.Address != null)
+		//    {
+		//        address.Id = user.Address.Id;
+		//    }
+		//    else
+		//    {
+		//        // 🟢 لو مفيش عنوان أصلاً، أنشئ Id جديد
+		//        address.Id = Guid.NewGuid();
+		//    }
+
+		//    user!.Address = address;
+
+		//    var result = await userManager.UpdateAsync(user);
+
+		//    if (!result.Succeeded)
+		//        throw new BadRequestException(result.Errors.Select(u => u.Description).Aggregate((x, y) => $"{x} , {y}"));
+
+		//    return addressDto;
+		//}
+
 		public async Task<UserDto> LoginAsync(LoginDto model)
 		{
 			var user = await userManager.FindByEmailAsync(model.Email);

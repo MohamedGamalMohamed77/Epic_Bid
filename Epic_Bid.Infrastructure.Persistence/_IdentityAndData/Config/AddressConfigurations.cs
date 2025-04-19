@@ -15,6 +15,7 @@ namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
 		{
 			builder.ToTable("Addresses");
 			
+			
 		}
 	}
 }

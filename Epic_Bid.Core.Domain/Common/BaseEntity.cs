@@ -11,5 +11,7 @@ namespace Epic_Bid.Core.Domain.Common
 	{
         public  int Id { get; set; }
 
+    
+        
     }
 }
