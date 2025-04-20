@@ -2,11 +2,11 @@
 {
     public class UserWithRoleDto
     {
-        public string Id { get; set; }
-        public string UserName { get; set; }
+        public required string Id { get; set; }
+        public string? UserName { get; set; }
 
-        public string Email { get; set; }
-        public IEnumerable<string> Roles { get; set; }
+        public string? Email { get; set; }
+        public required IEnumerable<string> Roles { get; set; }
     }
 
 }

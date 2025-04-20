@@ -23,9 +23,11 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Auth
         public async Task<ActionResult<string>> CreateRole(string roleName)
         {
             var roleExist = await _roleService.RoleExists(roleName);
-            if (roleExist) return BadRequest(new ApiResponse(400, "Role already exists"));
+            if (roleExist)
+                return BadRequest(new ApiResponse(400, "Role already exists"));
+
             await _roleService.CreateRoleAsync(roleName);
-            return Ok(roleName);
+            return Ok(new ApiResponse(200, $"Role '{roleName}' created successfully"));
         }
 
         [HttpGet("GetAllRoles")]
@@ -35,24 +37,17 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Auth
             return Ok(roles);
         }
 
-        [HttpPut("UpdateRole")]
-        public async Task<ActionResult<string>> UpdateRole(string name, string roleName)
-        {
-            var role = await _roleService.RoleExists(name);
-            if (!role) return BadRequest(new ApiResponse(400, "Role not found"));
-
-            await _roleService.UpdateRoleAsync(name, roleName);
-            return Ok(roleName);
-        }
-
+       
         [HttpDelete("DeleteRole")]
         public async Task<ActionResult<bool>> DeleteRole(string name)
         {
             var role = await _roleService.RoleExists(name);
-            if (!role) return BadRequest(new ApiResponse(400, "Role not found"));
+            if (!role)
+                return BadRequest(new ApiResponse(400, "Role not found"));
 
             await _roleService.DeleteRoleAsync(name);
-            return Ok(true);
+            return Ok(new ApiResponse(200, $"Role '{name}' deleted successfully"));
         }
+
     }
 }
