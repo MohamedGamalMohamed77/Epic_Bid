@@ -88,6 +88,22 @@ namespace Epic_Bid.Infrastructure.Persistence
                     await _dbcontext.SaveChangesAsync();
                 }
             }
+            if (!_dbcontext.CustomersReviews.Any())
+            {
+                // Reading the data form json file
+                var Data = File.ReadAllText("../Epic_Bid.Infrastructure.Persistence/_Identity/DataSeed/Reviews.json");
+                // Deserializing the data
+                var CustomersReviews = JsonSerializer.Deserialize<List<CustomerReview>>(Data);
+                // Adding the data to the database
+                if (CustomersReviews?.Count > 0)
+                {
+                    foreach (var item in CustomersReviews)
+                    {
+                        await _dbcontext.CustomersReviews.AddAsync(item);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
         }
 	}
 }

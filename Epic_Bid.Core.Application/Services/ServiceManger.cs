@@ -1,5 +1,9 @@
-﻿using Epic_Bid.Core.Application.Abstraction.Services;
+﻿using AutoMapper;
+using Epic_Bid.Core.Application.Abstraction.Services;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
+using Epic_Bid.Core.Application.Abstraction.Services.IProductServ;
+using Epic_Bid.Core.Application.Services.ProductServ;
+using Epic_Bid.Core.Domain.Contracts.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +13,29 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Core.Application.Services
 {
-	public class ServiceManager : IServiceManager
-	{
+    public class ServiceManager : IServiceManager
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-		private readonly Lazy<IAuthService> _authservice;
+        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper, Func<IAuthService> authServiceFactory)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
 
-		public ServiceManager(Func<IAuthService> authServiceFactory)
-		{
-			_authservice = new Lazy<IAuthService>(authServiceFactory,LazyThreadSafetyMode.ExecutionAndPublication); 
-		}
+            _authService = new Lazy<IAuthService>(authServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);
+            _productService = new Lazy<IProductService>(() => new ProductService(_unitOfWork, _mapper));
+        }
 
+        #region Auth
+        private readonly Lazy<IAuthService> _authService;
+        public IAuthService AuthService => _authService.Value;
+        #endregion
 
-		public IAuthService AuthService => _authservice.Value;
+        #region ProductService
+        private readonly Lazy<IProductService> _productService;
+        public IProductService ProductService => _productService.Value;
+        #endregion
 
-	}
+    }
 }

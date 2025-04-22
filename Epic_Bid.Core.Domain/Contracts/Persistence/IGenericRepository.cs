@@ -1,7 +1,9 @@
 ﻿using Epic_Bid.Core.Domain.Common;
+using Epic_Bid.Core.Domain.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,12 @@ namespace Epic_Bid.Core.Domain.Contracts.Persistence
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
-        
+        #region With Specificatoin
+        Task<IReadOnlyList<TEntity>> GetAllAsync(ISpecification<TEntity> Specification);
+        Task<TEntity?> GetByIdAsync(ISpecification<TEntity> Specification);
+        // Get Count 
+        Task<int> GetCountAsync(ISpecification<TEntity> Specification);
+        #endregion
+
     }
 }
