@@ -12,6 +12,7 @@ using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.API.Extensions;
 using Epic_Bid.Infrastructure.Persistence._Identity.Config;
 using Epic_Bid.Core.Application;
+using Epic_Bid.Core.Application.Mapping;
 
 namespace Epic_Bid.API
 {
@@ -58,10 +59,11 @@ namespace Epic_Bid.API
 			
 			builder.Services.AddPersistenceServices(builder.Configuration);
 			builder.Services.AddIdentityServices(builder.Configuration);
-			#endregion
+			
+            #endregion
 
 
-			var app = builder.Build();
+            var app = builder.Build();
             #region Update DataBase Initializer
             await app.InitializeAsync();
             #endregion

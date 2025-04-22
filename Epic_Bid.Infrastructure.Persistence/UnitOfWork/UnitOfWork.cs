@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epic_Bid.Infrastructure.Persistence.UnitOfWork
+namespace Epic_Bid.Infrastructure.Persistence.UnitofWork
 {
     public class UnitOfWork : IUnitOfWork
     {

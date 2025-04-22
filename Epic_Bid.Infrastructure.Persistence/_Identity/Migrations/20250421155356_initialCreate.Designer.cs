@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Epic_Bid.Infrastructure.Persistence._Identity.Migrations
 {
     [DbContext(typeof(StoreIdentityDbContext))]
-    [Migration("20250419164710_Added Guide To AddressId")]
-    partial class AddedGuideToAddressId
+    [Migration("20250421155356_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,8 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Migrations
 
             modelBuilder.Entity("Epic_Bid.Core.Domain.Entities.Address", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -183,17 +182,6 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double?>("AverageRating")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -233,12 +221,6 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TotalRatings")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UnitsSold")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductCategoryId");
@@ -263,7 +245,7 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Migrations
                     b.ToTable("ProductCategories");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Epic_Bid.Core.Domain.Entities.Roles.AppRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -431,7 +413,7 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Epic_Bid.Core.Domain.Entities.Roles.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -458,7 +440,7 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Epic_Bid.Core.Domain.Entities.Roles.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

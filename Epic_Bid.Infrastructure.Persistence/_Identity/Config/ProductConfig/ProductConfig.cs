@@ -24,8 +24,6 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Config.ProductConfig
             builder.Property(p => p.Color).IsRequired();
             builder.Property(p => p.Size).IsRequired();
             builder.Property(p => p.Dimensions).IsRequired();
-            builder.Property(p => p.Brand).IsRequired();
-            builder.Property(p => p.Category).IsRequired();
 
             // Relations
             builder.HasOne(p => p.ProductCategory)
