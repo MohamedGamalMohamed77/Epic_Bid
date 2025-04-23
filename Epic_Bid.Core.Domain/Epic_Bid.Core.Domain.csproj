@@ -14,9 +14,4 @@
     <ProjectReference Include="..\Epic_Bid.Shared\Epic_Bid.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contracts\Infrastructure\" />
-
-  </ItemGroup>
-
 </Project>

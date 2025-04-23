@@ -1,6 +1,6 @@
 ﻿using Epic_Bid.Core.Domain.Common;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
-using Epic_Bid.Infrastructure.Persistence._Identity.Config;
+using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Epic_Bid.Infrastructure.Persistence.Generic_Reposetories;
 using System;
 using System.Collections;
@@ -31,7 +31,7 @@ namespace Epic_Bid.Infrastructure.Persistence.UnitofWork
             // Check if the repository already exists in the hashtable
             if (Repositroy.ContainsKey(typeof(TEntity)))
             {
-                return (IGenericRepository<TEntity>)Repositroy[typeof(TEntity)];
+                return (IGenericRepository<TEntity>)Repositroy[typeof(TEntity)]!;
             }
             else
             {
@@ -42,7 +42,7 @@ namespace Epic_Bid.Infrastructure.Persistence.UnitofWork
                     var repository = new GenericRepository<TEntity>(_dbContext);
                     Repositroy.Add(type.Name, repository);
                 }
-                return Repositroy[type.Name] as IGenericRepository<TEntity>;
+                return (Repositroy[type.Name] as IGenericRepository<TEntity>)!;
 
             }
         }

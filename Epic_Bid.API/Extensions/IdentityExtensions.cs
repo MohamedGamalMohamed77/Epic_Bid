@@ -3,10 +3,10 @@ using Epic_Bid.Core.Application.Abstraction.Services.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.Role;
 using Epic_Bid.Core.Application.Services.Auth;
 using Epic_Bid.Core.Application.Services.Role;
-using Epic_Bid.Core.Domain.Entities;
+using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Roles;
 using Epic_Bid.Infrastructure.Persistence;
-using Epic_Bid.Infrastructure.Persistence._Identity.Config;
+using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Epic_Bid.API.Extensions
 {
-	public static class IdentityExtensions
+    public static class IdentityExtensions
 	{
 		public static IServiceCollection AddIdentityServices(this IServiceCollection services , IConfiguration configuration)
 		{

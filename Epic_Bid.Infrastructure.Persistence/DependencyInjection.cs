@@ -1,6 +1,6 @@
 ﻿using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.Core.Domain.Entities;
-using Epic_Bid.Infrastructure.Persistence._Identity.Config;
+using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Epic_Bid.Infrastructure.Persistence.UnitofWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

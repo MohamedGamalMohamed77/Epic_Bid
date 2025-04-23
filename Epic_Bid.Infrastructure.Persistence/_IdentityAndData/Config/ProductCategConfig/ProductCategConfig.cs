@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Epic_Bid.Infrastructure.Persistence._Identity.Config.ProductCategConfig
+namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config.ProductCategConfig
 {
-    public  class ProductCategConfig : IEntityTypeConfiguration<ProductCategory>
+    public class ProductCategConfig : IEntityTypeConfiguration<ProductCategory>
     {
-        public  void Configure(EntityTypeBuilder<ProductCategory> builder)
+        public void Configure(EntityTypeBuilder<ProductCategory> builder)
         {
             builder.Property(p => p.Name).IsRequired();
         }

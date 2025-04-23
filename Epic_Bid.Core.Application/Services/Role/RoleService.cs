@@ -22,9 +22,10 @@ namespace Epic_Bid.Core.Application.Services.Role
                 NormalizedName = roleName.ToUpper(),
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             };
-            var result = _RoleManager.CreateAsync(Role);
-            if (!result.Result.Succeeded)
             
+            var result = await _RoleManager.CreateAsync(Role);
+
+            if (!result.Succeeded)
             {
                 throw new BadRequestException("Role Not Created");
             }

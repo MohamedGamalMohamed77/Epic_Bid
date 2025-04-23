@@ -1,6 +1,8 @@
 ﻿using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.Infrastructure.Persistence;
 using Microsoft.Extensions.Logging;
+using System.Data;
+using System.Security.Principal;
 
 namespace Epic_Bid.API.Extensions
 {
@@ -19,9 +21,6 @@ namespace Epic_Bid.API.Extensions
                 // this is the place where we apply the migrations
                 await storeIdentityIntializer.InitializeAsync();
 				await storeIdentityIntializer.SeedAsync();
-
-                
-
 
             }
 			catch (Exception ex) 

@@ -16,6 +16,7 @@ namespace Epic_Bid.Core.Application.Abstraction.Services.Auth
 		Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal);
 		Task<AddressDto?> GetUserAddress(ClaimsPrincipal claimsPrincipal);
 		Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto);
+		Task<AddressDto> AddUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto);
 		Task<string> ForgetPasswordAsync(ForgetPasswordDto model);
 		Task<string> VerifyCodeAsync(VerifyCodeDto model);
 		Task<string> ResetPasswordAsync(ResetPasswordDto model);

@@ -1,11 +1,11 @@
-﻿using Epic_Bid.Core.Domain.Entities;
-using Epic_Bid.Core.Domain.Entities.Products;
+﻿using Epic_Bid.Core.Domain.Entities.Products;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Epic_Bid.Core.Domain.Entities.Roles;
+using Epic_Bid.Core.Domain.Entities.Auth;
 
-namespace Epic_Bid.Infrastructure.Persistence._Identity.Config
+namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
 {
     public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser, AppRole, string>
     {
