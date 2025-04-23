@@ -118,7 +118,7 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
             {
                 return Unauthorized("User not found");
             }
-            await _serviceManager.ProductService.AddReviewAsync(reviewDto, userId, UserName);
+            await _serviceManager.ProductService.AddReviewAsync(reviewDto, userId!, UserName!);
             return Ok("Review added successfully");
         }
         #endregion

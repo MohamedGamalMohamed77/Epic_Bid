@@ -46,6 +46,13 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Auth
 			return Ok(result);
 		}
 		[Authorize]
+		[HttpPost("address")]
+		public async Task<ActionResult<AddressDto>> AddUserAddress(AddressDto addressDto)
+		{
+			var result = await serviceManager.AuthService.AddUserAddress(User, addressDto);
+			return Ok(result);
+		}
+		[Authorize]
 		[HttpPut("address")]
 		public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto addressDto)
 		{

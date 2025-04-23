@@ -9,7 +9,7 @@ namespace Epic_Bid.Core.Domain.Entities.Products
 {
     public class ProductCategory: BaseEntity
     {
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         // navigational property
         public ICollection<Product> Products { get; set; } = new HashSet<Product>();

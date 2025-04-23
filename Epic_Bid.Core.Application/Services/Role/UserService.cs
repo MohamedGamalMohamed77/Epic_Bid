@@ -1,7 +1,7 @@
 ﻿using Epic_Bid.Core.Application.Abstraction.Models.Role;
 using Epic_Bid.Core.Application.Abstraction.Services.Role;
 using Epic_Bid.Core.Application.Exceptions;
-using Epic_Bid.Core.Domain.Entities;
+using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Roles;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Core.Application.Services.Role
 {
-    public class UserService(RoleManager<AppRole> _roleManager, UserManager<ApplicationUser> _userManager) : IUserService
+    public class UserService( UserManager<ApplicationUser> _userManager) : IUserService
     {
         public async Task<UserWithRoleDto> EditUserRoles(string userId, List<string> RolesNames)
         {

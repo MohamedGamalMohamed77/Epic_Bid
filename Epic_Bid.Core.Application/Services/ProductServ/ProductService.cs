@@ -198,7 +198,7 @@ namespace Epic_Bid.Core.Application.Services.ProductServ
             var AllProductCount = Products.Count();
             // Count Of All Data   
             var Count = await unitOfWork.GetRepository<Product>().GetCountAsync(new ProductCountSpec(param));
-            return new ProductPagination<ProductDto>(param.PageSize, AllProductCount, Count, Data);
+            return new ProductPagination<ProductDto>(param!.PageSize, AllProductCount, Count, Data);
         }
         #endregion
 

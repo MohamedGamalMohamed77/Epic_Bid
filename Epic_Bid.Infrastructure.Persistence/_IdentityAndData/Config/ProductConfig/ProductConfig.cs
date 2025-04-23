@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace Epic_Bid.Infrastructure.Persistence._Identity.Config.ProductConfig
+namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config.ProductConfig
 {
     public class ProductConfig : IEntityTypeConfiguration<Product>
     {
@@ -29,7 +29,7 @@ namespace Epic_Bid.Infrastructure.Persistence._Identity.Config.ProductConfig
             builder.HasOne(p => p.ProductCategory)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.ProductCategoryId);
-            
+
 
 
 

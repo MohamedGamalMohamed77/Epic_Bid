@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.API.Extensions;
-using Epic_Bid.Infrastructure.Persistence._Identity.Config;
+using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Epic_Bid.Core.Application;
 using Epic_Bid.Core.Application.Mapping;
+using Epic_Bid.Infrastructure;
 
 namespace Epic_Bid.API
 {
@@ -58,6 +59,8 @@ namespace Epic_Bid.API
 			builder.Services.AddApplicationServices();
 			
 			builder.Services.AddPersistenceServices(builder.Configuration);
+			builder.Services.AddInfrastructureServices(builder.Configuration);
+
 			builder.Services.AddIdentityServices(builder.Configuration);
 			
             #endregion
@@ -65,8 +68,10 @@ namespace Epic_Bid.API
 
             var app = builder.Build();
             #region Update DataBase Initializer
+
             await app.InitializeAsync();
-            #endregion
+            
+			#endregion
 
 
             // Configure the HTTP request pipeline.

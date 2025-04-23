@@ -4,7 +4,7 @@ using Epic_Bid.Core.Application.Abstraction.Models.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
 using Epic_Bid.Core.Application.Exceptions;
 using Epic_Bid.Core.Application.Extensions;
-using Epic_Bid.Core.Domain.Entities;
+using Epic_Bid.Core.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -18,7 +18,7 @@ using System.Text;
 
 namespace Epic_Bid.Core.Application.Services.Auth
 {
-	public class AuthService(
+    public class AuthService(
 		IEmailService emailService,
 		IMapper mapper,
 		IOptions<JwtSettings> jwtSettings,
@@ -49,6 +49,27 @@ namespace Epic_Bid.Core.Application.Services.Auth
 			var address = mapper.Map<AddressDto?>(user?.Address);
 			return address;
 		}
+		public async Task<AddressDto> AddUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto)
+		{
+			var user = await userManager.FindUserWithAddress(claimsPrincipal);
+			if (user == null)
+				throw new BadRequestException("User not found");
+
+			if (user.Address != null)
+				throw new BadRequestException("User already has an address. Use update instead.");
+
+			var address = mapper.Map<Address>(addressDto);
+
+			user.Address = address;
+
+			var result = await userManager.UpdateAsync(user);
+			if (!result.Succeeded)
+				throw new BadRequestException(result.Errors
+				  .Select(e => e.Description)
+				  .Aggregate((x, y) => $"{x}, {y}"));
+
+			return addressDto;
+		}
 		public async Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto)
 		{
 			var address = mapper.Map<Address>(addressDto);
@@ -67,33 +88,7 @@ namespace Epic_Bid.Core.Application.Services.Auth
 
 		}
 
-		///public async Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto)
-		//{
-		//    var address = mapper.Map<Address>(addressDto);
-
-		//    var user = await userManager.FindUserWithAddress(claimsPrincipal);
-
-		//    // 🟢 لو العنوان موجود، استخدم الـ Id القديم
-		//    if (user?.Address != null)
-		//    {
-		//        address.Id = user.Address.Id;
-		//    }
-		//    else
-		//    {
-		//        // 🟢 لو مفيش عنوان أصلاً، أنشئ Id جديد
-		//        address.Id = Guid.NewGuid();
-		//    }
-
-		//    user!.Address = address;
-
-		//    var result = await userManager.UpdateAsync(user);
-
-		//    if (!result.Succeeded)
-		//        throw new BadRequestException(result.Errors.Select(u => u.Description).Aggregate((x, y) => $"{x} , {y}"));
-
-		//    return addressDto;
-		//}
-
+	
 		public async Task<UserDto> LoginAsync(LoginDto model)
 		{
 			var user = await userManager.FindByEmailAsync(model.Email);
