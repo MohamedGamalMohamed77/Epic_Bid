@@ -1,4 +1,5 @@
 ﻿using Epic_Bid.Apis.Controllers.Controllers.Base;
+using Epic_Bid.Apis.Controllers.UploadImageHandlerExtension;
 using Epic_Bid.Core.Application.Abstraction.Models.ProductDt;
 using Epic_Bid.Core.Application.Abstraction.Services;
 using Epic_Bid.Shared;
@@ -67,6 +68,8 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
             {
                 return Unauthorized("User not found");
             }
+            // Add the ImageFile
+            CreatedProduct.ImageUrl = UploadImageHandler.UploadImage(CreatedProduct.ImageUploaded);
             var Product = await _serviceManager.ProductService.AddProductAsync(CreatedProduct, UserId);
             return Ok(Product);
         }
@@ -83,7 +86,7 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
             {
                 return Unauthorized("User not authenticated or token is invalid");
             }
-
+            updateProduct.ImageUrl = UploadImageHandler.UploadImage(updateProduct.ImageUploaded);
             var product = await _serviceManager.ProductService.UpdateProductAsync(updateProduct, userId);
             return Ok(product);
         }
