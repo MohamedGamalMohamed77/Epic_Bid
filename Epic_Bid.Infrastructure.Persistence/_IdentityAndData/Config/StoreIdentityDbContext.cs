@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Epic_Bid.Core.Domain.Entities.Roles;
 using Epic_Bid.Core.Domain.Entities.Auth;
+using Epic_Bid.Core.Domain.Entities.Order;
 
 namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
 {
@@ -23,5 +24,8 @@ namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
         public DbSet<Product> Products { get; set; }
         public DbSet<CustomerReview> CustomersReviews { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.Core.Domain.Entities.Auth;
+using Epic_Bid.Core.Domain.Entities.Order;
 using Epic_Bid.Core.Domain.Entities.Products;
 using Epic_Bid.Core.Domain.Entities.Roles;
 using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
@@ -107,6 +108,25 @@ namespace Epic_Bid.Infrastructure.Persistence
 					await _dbcontext.SaveChangesAsync();
 				}
 			}
-		}
-	}
+            // Seeding DelvieryMethod
+            if (!_dbcontext.DeliveryMethods.Any())
+            {
+                var DeliveryMethodData = File.ReadAllText("../Epic_Bid.Infrastructure.Persistence/_IdentityAndData/DataSeed/delivery.json");
+                var deliveryMethod = JsonSerializer.Deserialize<List<DeliveryMethod>>(DeliveryMethodData);
+                if (DeliveryMethodData.Count() > 0)
+                {
+                    if (deliveryMethod?.Count() > 0)
+                    {
+                        foreach (var item in deliveryMethod)
+                        {
+                            await _dbcontext.DeliveryMethods.AddAsync(item);
+                        }
+                        await _dbcontext.SaveChangesAsync();
+                    }
+                }
+
+            }
+
+        }
+    }
 }

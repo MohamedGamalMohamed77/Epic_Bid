@@ -1,10 +1,12 @@
 ﻿using Epic_Bid.Core.Application.Abstraction.Services;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.Basket;
+using Epic_Bid.Core.Application.Abstraction.Services.IOrderServ;
 using Epic_Bid.Core.Application.Mapping;
 using Epic_Bid.Core.Application.Services;
 using Epic_Bid.Core.Application.Services.Auth;
 using Epic_Bid.Core.Application.Services.Basket;
+using Epic_Bid.Core.Application.Services.OrderServ;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -33,6 +35,7 @@ namespace Epic_Bid.Core.Application
 			});
 
 			services.AddScoped(typeof(IServiceManager), typeof(ServiceManager));
+			services.AddScoped<IOrderService, OrderService>();
 
 			return services;
 		}
