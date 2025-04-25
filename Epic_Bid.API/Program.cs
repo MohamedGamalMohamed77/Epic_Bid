@@ -14,6 +14,7 @@ using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Epic_Bid.Core.Application;
 using Epic_Bid.Core.Application.Mapping;
 using Epic_Bid.Infrastructure;
+using System.Text.Json.Serialization;
 
 namespace Epic_Bid.API
 {
@@ -60,8 +61,11 @@ namespace Epic_Bid.API
 			
 			builder.Services.AddPersistenceServices(builder.Configuration);
 			builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddControllers().AddJsonOptions(options =>{
+			options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			});
 
-			builder.Services.AddIdentityServices(builder.Configuration);
+            builder.Services.AddIdentityServices(builder.Configuration);
 			
             #endregion
 

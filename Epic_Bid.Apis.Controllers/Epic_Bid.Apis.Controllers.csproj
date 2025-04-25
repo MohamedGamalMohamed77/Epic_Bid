@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Epic_Bid.Core.Application.Abstraction\Epic_Bid.Core.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\Epic_Bid.Core.Application\Epic_Bid.Core.Application.csproj" />
   </ItemGroup>
 
 </Project>

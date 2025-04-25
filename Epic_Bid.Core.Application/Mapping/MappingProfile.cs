@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Epic_Bid.Core.Application.Abstraction.Common;
+using Epic_Bid.Core.Application.Abstraction.Models.Order;
 using Epic_Bid.Core.Application.Abstraction.Models.ProductDt;
 using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Basket;
+using Epic_Bid.Core.Domain.Entities.Order;
 using Epic_Bid.Core.Domain.Entities.Products;
 using Epic_Bid.Shared.Models.Basket;
 using System;
@@ -17,7 +19,7 @@ namespace Epic_Bid.Core.Application.Mapping
 	{
 		public MappingProfile()
 		{
-			CreateMap<Address,AddressDto>().ReverseMap();
+			CreateMap<Domain.Entities.Auth.Address,AddressDto>().ReverseMap();
 			CreateMap<ProductCategory, CategoryDto>().ReverseMap();
 			CreateMap<Product, ProductDto>()
 				.ForMember(des => des.ImageUrl, opt => opt.MapFrom<PictureUrlResolver<ProductDto>>());
@@ -32,7 +34,17 @@ namespace Epic_Bid.Core.Application.Mapping
 
 			CreateMap<CustomerBasket, CustomerBasketDto>().ReverseMap();
 			CreateMap<BasketItem, BasketItemDto>().ReverseMap();
+            CreateMap<AddressDto, Domain.Entities.Order.Address>().ReverseMap();
 
+            // Order module
+            CreateMap<Order, OrderToReturnDto>()
+                 .ForMember(o => o.DeliveryMethod, opt => opt.MapFrom(o => o.DeliveryMethod.ShortName))
+                 .ForMember(o => o.DeliveryMethodCost, opt => opt.MapFrom(o => o.DeliveryMethod.Cost));
+            CreateMap<OrderItem, OrderItemDto>()
+                .ForMember(o => o.ProductId, opt => opt.MapFrom(o => o.Product.ProductId))
+                .ForMember(o => o.ProductName, opt => opt.MapFrom(o => o.Product.ProductName))
+                .ForMember(o => o.PictureUrl, opt => opt.MapFrom(o => o.Product.PictureUrl))
+                .ForMember(o => o.PictureUrl, opt => opt.MapFrom<OrderItemUrlResolver<OrderItemDto>>());
 
 
         }
