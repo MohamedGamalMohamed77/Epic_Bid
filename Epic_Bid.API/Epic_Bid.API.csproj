@@ -24,6 +24,7 @@
 
   <ItemGroup>
 	  <Folder Include="Services\" />
+	  <Folder Include="wwwroot\Images\Products\" />
   </ItemGroup>
 
 </Project>
