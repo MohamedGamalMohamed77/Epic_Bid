@@ -1,5 +1,6 @@
 ﻿using Epic_Bid.Core.Domain.Common;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
+using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Specifications;
 using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,8 @@ namespace Epic_Bid.Infrastructure.Persistence.Generic_Reposetories
         => _Dbcontext.Set<TEntity>().Remove(entity);
 
 
-
+        public async Task<ApplicationUser?> GetUserByIdAsycn(string id)
+        => await _Dbcontext.Set<ApplicationUser>().FirstOrDefaultAsync(i => i.Id == id);
         public void Update(TEntity entity)
         => _Dbcontext.Set<TEntity>().Update(entity);
 

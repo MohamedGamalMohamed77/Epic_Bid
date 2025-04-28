@@ -6,6 +6,7 @@ using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Basket;
 using Epic_Bid.Core.Domain.Entities.Order;
 using Epic_Bid.Core.Domain.Entities.Products;
+using Epic_Bid.Shared;
 using Epic_Bid.Shared.Models.Basket;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,8 @@ namespace Epic_Bid.Core.Application.Mapping
                 .ForMember(o => o.ProductName, opt => opt.MapFrom(o => o.Product.ProductName))
                 .ForMember(o => o.PictureUrl, opt => opt.MapFrom(o => o.Product.PictureUrl))
                 .ForMember(o => o.PictureUrl, opt => opt.MapFrom<OrderItemUrlResolver<OrderItemDto>>());
-
+            // Auction
+            CreateMap<AuctionBid, AuctionForProductDto>().ReverseMap();
 
         }
 

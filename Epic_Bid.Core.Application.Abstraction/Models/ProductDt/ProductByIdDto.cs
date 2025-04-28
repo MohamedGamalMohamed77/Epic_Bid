@@ -31,7 +31,12 @@ namespace Epic_Bid.Core.Application.Abstraction.Models.ProductDt
         public int ProductCategoryId { get; set; }
         public string CategoryName { get; set; } = string.Empty; // اسم الفئة
 
-
+        public bool IsAuction { get; set; } = false; // هل المنتج معروض كمزاد؟
+        public DateTime? AuctionStartTime { get; set; } // بداية المزاد
+        public DateTime? AuctionEndTime { get; set; } // نهاية المزاد
+        public decimal? CurrentBid { get; set; } // أعلى مزايدة حالية
+        public string? CurrentWinnerUserId { get; set; } // المستخدم اللي عامل أعلى مزايدة
+        public bool IsAuctionClosed { get; set; } = false; // هل المزاد انتهى؟ 
         public DateTime CreatedAt { get; set; }
 
     }

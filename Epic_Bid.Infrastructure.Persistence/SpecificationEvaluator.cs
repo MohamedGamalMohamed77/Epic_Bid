@@ -19,6 +19,15 @@ namespace Epic_Bid.Infrastructure.Persistence
             {
                 Query = Query.Where(Specification.Criteria);
             }
+            // Sorting
+            if (Specification.OrderBy != null)
+            {
+                Query = Query.OrderBy(Specification.OrderBy);
+            }
+            else if (Specification.OrderByDescending != null)
+            {
+                Query = Query.OrderByDescending(Specification.OrderByDescending);
+            }
             // Inlcude
             if (Specification.Includes != null)
             {

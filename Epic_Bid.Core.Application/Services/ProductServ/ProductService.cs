@@ -1,13 +1,18 @@
 ﻿using AutoMapper;
+using Epic_Bid.Core.Application.Abstraction.Models.Auth;
 using Epic_Bid.Core.Application.Abstraction.Models.ProductDt;
-
+using Epic_Bid.Core.Application.Abstraction.Services.AuctionServ;
+using Epic_Bid.Core.Application.Abstraction.Services.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.IProductServ;
 using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Core.Application.Services.AuctionServ;
 using Epic_Bid.Core.Application.SpecificationImplementation;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
+using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Products;
 using Epic_Bid.Core.Domain.Specifications;
 using Epic_Bid.Shared;
+using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -20,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Core.Application.Services.ProductServ
 {
-    public class ProductService(IUnitOfWork unitOfWork, IMapper _mapper) : IProductService
+    public class ProductService(IUnitOfWork unitOfWork, IMapper _mapper, IBackgroundJobClient _backgroundJobClient) : IProductService
     {
         #region AddProduct  
         public async Task<CreateProductDto> AddProductAsync(CreateProductDto CreatedProduct, string UserId)
@@ -52,6 +57,20 @@ namespace Epic_Bid.Core.Application.Services.ProductServ
                 throw new BadRequestException("Error while adding product");
             }
             CreatedProduct.Id = Product.Id;
+            if (CreatedProduct.AuctionStartTime != null && CreatedProduct.AuctionEndTime != null && CreatedProduct.AuctionStartTime < CreatedProduct.AuctionEndTime)
+            {
+                // make hangfire job to open the auction, and send email to the user
+                var TimeDelay =  (CreatedProduct.AuctionEndTime - CreatedProduct.AuctionStartTime).Value.TotalMinutes;
+                var jobId = _backgroundJobClient.Schedule<IAuctionService>(x => x.CloseAuctionAsync(Product.Id), TimeSpan.FromMinutes(TimeDelay));
+                var emailwinnerdata = new EmailWinnerDataDto
+                {
+                    Productname = CreatedProduct.Name,
+                    Finlaprice = CreatedProduct.CurrentBid ?? 0,
+                    AuctionEndDate = CreatedProduct.AuctionEndTime.Value,
+                    Username = ""
+                };
+                var emailJobId = _backgroundJobClient.Schedule<IAuctionService>(x => x.SendEmailToWinner(Product.Id, "Winner!", emailwinnerdata), TimeSpan.FromMinutes(TimeDelay));
+            }
             return CreatedProduct;
         }
         #endregion

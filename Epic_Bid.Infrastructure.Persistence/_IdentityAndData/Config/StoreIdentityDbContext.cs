@@ -27,5 +27,7 @@ namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+        public DbSet<AuctionBid> AuctionBids { get; set; } // المزادات
+
     }
 }

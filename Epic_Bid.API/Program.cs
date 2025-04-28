@@ -15,6 +15,7 @@ using Epic_Bid.Core.Application;
 using Epic_Bid.Core.Application.Mapping;
 using Epic_Bid.Infrastructure;
 using System.Text.Json.Serialization;
+using Hangfire;
 
 namespace Epic_Bid.API
 {
@@ -26,16 +27,22 @@ namespace Epic_Bid.API
 			var builder = WebApplication.CreateBuilder(args);
 
 
-			#region Configure Services
+            #region Configure Services
 
 
-			// Add services to the container.
+            // Add services to the container.
+            #region Add Hangfire
+            builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("StoreIdentityContext")));
+			builder.Services.AddHangfireServer();
+            #endregion
 
-			builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
+            builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
 
 			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
+            
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 			builder.Services
 				.AddControllers()
@@ -95,7 +102,7 @@ namespace Epic_Bid.API
 
 			app.UseAuthentication();
 			app.UseAuthorization();
-
+			app.UseHangfireDashboard("/dashboard");
 			app.MapControllers();
 
 			app.Run();

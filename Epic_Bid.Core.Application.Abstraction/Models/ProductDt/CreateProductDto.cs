@@ -21,5 +21,14 @@ namespace Epic_Bid.Core.Application.Abstraction.Models.ProductDt
         public string Size { get; set; } = string.Empty;
         public string Dimensions { get; set; } = string.Empty;
         public int ProductCategoryId { get; set; }
+        
+        
+        // Action
+        public bool IsAuction { get; set; } = false;
+        public DateTime? AuctionStartTime { get; set; } // بداية المزاد
+        public DateTime? AuctionEndTime { get; set; } // نهاية المزاد
+        public decimal? CurrentBid { get; set; } // أعلى مزايدة حالية
+        public string? CurrentWinnerUserId { get; set; } // المستخدم اللي عامل أعلى مزايدة
+        public bool IsAuctionClosed { get; set; } = false; // هل المزاد انتهى؟
     }
 }

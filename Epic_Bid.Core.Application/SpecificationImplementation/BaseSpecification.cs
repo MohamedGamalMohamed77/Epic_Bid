@@ -30,6 +30,7 @@ namespace Epic_Bid.Core.Application.SpecificationImplementation
         public int Skip { get; private set; }
         public bool IsPaginated { get ; set; }
 
+
         protected void ApplyPaging(int pageSize, int pageIndex)
         {
             IsPaginated = true;
@@ -37,6 +38,20 @@ namespace Epic_Bid.Core.Application.SpecificationImplementation
             Take = pageSize;
         }
         #endregion
+        public Expression<Func<TEntity, object>> OrderBy { get; set; }
+
+        public Expression<Func<TEntity, object>> OrderByDescending { get; set; }
+        protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression)
+        {
+            OrderBy = orderByExpression;
+            
+        }
+        protected void AddOrderByDescending(Expression<Func<TEntity, object>> orderByDescExpression)
+        {
+            OrderByDescending = orderByDescExpression;
+            
+        }
+
 
     }
 }
