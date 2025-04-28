@@ -2,6 +2,7 @@
 using Epic_Bid.Apis.Controllers.UploadImageHandlerExtension;
 using Epic_Bid.Core.Application.Abstraction.Models.ProductDt;
 using Epic_Bid.Core.Application.Abstraction.Services;
+using Epic_Bid.Core.Domain.Entities.Products;
 using Epic_Bid.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
         #region GetProductById
         // GetProductByIdAsync
         [HttpGet("GetProductById")]
-        public async Task<ActionResult<ProductDto>> GetProductById(int id)
+        public async Task<ActionResult<ProductByIdDto>> GetProductById(int id)
         {
             var Product = await _serviceManager.ProductService.GetProductByIdAsync(id);
             return Ok(Product);
@@ -67,6 +68,14 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
             if (string.IsNullOrEmpty(UserId))
             {
                 return Unauthorized("User not found");
+            }
+            if (CreatedProduct.IsAuction)
+            {
+                if (CreatedProduct.AuctionStartTime == null || CreatedProduct.AuctionEndTime == null)
+                    throw new Exception("Auction time must be provided for auction products.");
+
+                if (CreatedProduct.AuctionEndTime <= CreatedProduct.AuctionStartTime)
+                    throw new Exception("Auction end time must be after start time.");
             }
             // Add the ImageFile
             CreatedProduct.ImageUrl = UploadImageHandler.UploadImage(CreatedProduct.ImageUploaded);

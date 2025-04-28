@@ -30,6 +30,15 @@ namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config.ProductCon
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.ProductCategoryId);
 
+            // Auction
+            builder.Property(p => p.CurrentBid)
+                .HasColumnType("decimal(18,2)");
+
+            builder.HasMany(p => p.AuctionBids)
+                .WithOne(a => a.Product)
+                .HasForeignKey(a => a.ProductId)
+                .OnDelete(DeleteBehavior.Cascade); // Assuming you want to delete bids when the product is deleted
+
 
 
 

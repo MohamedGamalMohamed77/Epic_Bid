@@ -37,6 +37,18 @@ namespace Epic_Bid.Core.Domain.Entities.Products
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public ICollection<CustomerReview>? Reviews { get; set; } = new List<CustomerReview>();
+
+
+        #region Auction
+        public bool IsAuction { get; set; } = false; // هل المنتج معروض كمزاد؟
+        public DateTime? AuctionStartTime { get; set; } // بداية المزاد
+        public DateTime? AuctionEndTime { get; set; } // نهاية المزاد
+        public decimal? CurrentBid { get; set; } // أعلى مزايدة حالية
+        public string? CurrentWinnerUserId { get; set; } // المستخدم اللي عامل أعلى مزايدة
+        public bool IsAuctionClosed { get; set; } = false; // هل المزاد انتهى؟ 
+        public ICollection<AuctionBid>? AuctionBids { get; set; } = new HashSet<AuctionBid>(); // المزايدات على المنتج
+        #endregion
+
     }
-    
+
 }

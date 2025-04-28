@@ -13,5 +13,9 @@ namespace Epic_Bid.Core.Application.Abstraction.Models.ProductDt
         public decimal Price { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
         public string Color { get; set; } = null!;
+        public bool IsAuction { get; set; } = false; // هل المنتج معروض كمزاد؟
+        public DateTime? AuctionStartTime { get; set; } // بداية المزاد
+        public DateTime? AuctionEndTime { get; set; } // نهاية المزاد
+        public bool IsAuctionClosed { get; set; } = false; // هل المزاد انتهى؟ 
     }
 }
