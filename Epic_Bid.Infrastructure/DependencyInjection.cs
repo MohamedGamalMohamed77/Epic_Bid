@@ -18,10 +18,44 @@ namespace Epic_Bid.Infrastructure
 		{
 			services.AddSingleton(typeof(IConnectionMultiplexer), (serviceProvider) =>
 			{
-				var connectionString = configuration.GetConnectionString("Redis");
-				var connectionMultiplexer = ConnectionMultiplexer.Connect(connectionString!);
-				return connectionMultiplexer;
+				try
+				{
+					var connectionString = configuration.GetConnectionString("Redis")!;
+
+					ConfigurationOptions config;
+
+					if (connectionString.StartsWith("redis://") || connectionString.StartsWith("rediss://"))
+					{
+						// ✅ Handle Upstash (cloud-hosted Redis)
+						var uri = new Uri(connectionString);
+						var userInfo = uri.UserInfo.Split(':');
+
+						config = new ConfigurationOptions
+						{
+							EndPoints = { { uri.Host, uri.Port } },
+							Ssl = uri.Scheme == "rediss",           // Ssl only for rediss
+							AbortOnConnectFail = false,
+							User = userInfo[0],
+							Password = userInfo[1],
+						};
+					}
+					else
+					{
+						// ✅ Handle localhost or custom Redis server
+						config = ConfigurationOptions.Parse(connectionString);
+						config.AbortOnConnectFail = false;
+					}
+					var connectionMultiplexer = ConnectionMultiplexer.Connect(config);
+					return connectionMultiplexer;
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Redis connection error: " + ex.Message);
+					throw;
+				}
+
 			});
+
 
 			services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
 

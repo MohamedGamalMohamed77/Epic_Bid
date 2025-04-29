@@ -6,7 +6,6 @@ using Epic_Bid.Core.Application.Services.Role;
 using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Roles;
 using Epic_Bid.Infrastructure.Persistence;
-using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

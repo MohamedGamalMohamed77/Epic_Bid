@@ -1,6 +1,5 @@
 ﻿using Epic_Bid.Core.Domain.Common;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
-using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Epic_Bid.Infrastructure.Persistence.Generic_Reposetories;
 using System;
 using System.Collections;
