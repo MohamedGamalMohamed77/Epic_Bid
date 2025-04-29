@@ -1,0 +1,112 @@
+using Epic_Bid.API.Middlewares;
+using Epic_Bid.Infrastructure.Persistence;
+using Epic_Bid.Apis.Controllers.Controllers.Errors;
+using Microsoft.AspNetCore.Mvc;
+using Epic_Bid.Apis.Controllers;
+using Epic_Bid.Core.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Stripe;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Epic_Bid.Core.Domain.Contracts.Persistence;
+using Epic_Bid.API.Extensions;
+using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
+using Epic_Bid.Core.Application;
+using Epic_Bid.Core.Application.Mapping;
+using Epic_Bid.Infrastructure;
+using System.Text.Json.Serialization;
+using Hangfire;
+using Epic_Bid.Core.Domain.Contracts.Infrastructure;
+using Epic_Bid.Infrastructure.Basket_Repository;
+using Epic_Bid.Shared.HangFire;
+
+namespace Epic_Bid.API
+{
+	public class Program
+	{
+		public static async Task Main(string[] args)
+		{
+
+			var builder = WebApplication.CreateBuilder(args);
+
+
+            #region Configure Services
+
+
+            // Add services to the container.
+            #region Add Hangfire
+            builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("StoreIdentityContext")));
+			builder.Services.AddHangfireServer();
+            #endregion
+			
+            builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
+
+			builder.Services.AddControllers();
+            
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddSwaggerGen();
+			builder.Services
+				.AddControllers()
+				.ConfigureApiBehaviorOptions(options =>
+				{
+					options.SuppressModelStateInvalidFilter = false;
+					options.InvalidModelStateResponseFactory = (actionContext) =>
+					{
+						var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
+									   .Select(P => new ApiValidationErrorResponse.ValidationError()
+									   {
+										   Field = P.Key,
+										   Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
+									   });
+						return new BadRequestObjectResult(new ApiValidationErrorResponse()
+						{
+							Errors = errors
+						});
+					};
+				});
+				builder.Services.AddApplicationServices();
+			
+			builder.Services.AddPersistenceServices(builder.Configuration);
+			builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddControllers().AddJsonOptions(options =>{
+			options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			});
+
+            builder.Services.AddIdentityServices(builder.Configuration);
+			
+            #endregion
+
+
+            var app = builder.Build();
+            #region Update DataBase Initializer
+
+            await app.InitializeAsync();
+
+			#endregion
+
+			
+            // Configure the HTTP request pipeline.
+			app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+            if (app.Environment.IsDevelopment())
+			{
+				app.UseSwagger();
+				app.UseSwaggerUI();
+			}
+			app.UseHttpsRedirection();
+			//app.UseStatusCodePagesWithReExecute("/errors/{0}");
+			app.UseStaticFiles();
+			app.UseAuthentication();
+			app.UseAuthorization();
+            app.UseHangfireDashboard("/dashboard", new DashboardOptions
+            {
+                Authorization = new[] { new AllowAllUsersAuthorizationFilter() }
+            });
+            app.MapControllers();
+
+			app.Run();
+		}
+	}
+}

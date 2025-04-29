@@ -1,0 +1,74 @@
+[
+  {
+    "ProductId": 1,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "The L-shaped sofa is perfect for my living room. Very comfortable for family gatherings!",
+    "Rating": 5,
+    "CreatedAt": "2025-03-15T10:30:00Z"
+  },
+  {
+    "ProductId": 2,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Good quality bed frame but the assembly instructions could be clearer",
+    "Rating": 4,
+    "CreatedAt": "2025-03-20T14:15:00Z"
+  },
+  {
+    "ProductId": 3,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Dining table looks elegant but the glass surface scratches easily",
+    "Rating": 3,
+    "CreatedAt": "2025-03-25T16:45:00Z"
+  },
+  {
+    "ProductId": 4,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Best office chair I've ever used! Worth every penny for back support",
+    "Rating": 5,
+    "CreatedAt": "2025-04-01T09:20:00Z"
+  },
+  {
+    "ProductId": 5,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Sturdy bookshelf that holds all my engineering textbooks",
+    "Rating": 4,
+    "CreatedAt": "2025-04-05T11:10:00Z"
+  },
+  {
+    "ProductId": 6,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Patio set survived the winter perfectly. Great for outdoor tea time",
+    "Rating": 5,
+    "CreatedAt": "2025-04-10T15:30:00Z"
+  },
+  {
+    "ProductId": 7,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Wall art adds nice color to my study room",
+    "Rating": 4,
+    "CreatedAt": "2025-04-12T13:25:00Z"
+  },
+  {
+    "ProductId": 8,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Velvet chair looks luxurious but attracts dust easily",
+    "Rating": 3,
+    "CreatedAt": "2025-04-15T17:40:00Z"
+  },
+  {
+    "ProductId": 9,
+    "UserId": "mg1791@fayoum.edu.eg",
+    "UserName": "Mohamed Gamal",
+    "ReviewText": "Recliner is my favorite spot for watching football matches",
+    "Rating": 5,
+    "CreatedAt": "2025-04-18T20:15:00Z"
+  }
+]
