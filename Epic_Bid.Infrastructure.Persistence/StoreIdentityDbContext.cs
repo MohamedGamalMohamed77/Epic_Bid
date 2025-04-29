@@ -6,7 +6,7 @@ using Epic_Bid.Core.Domain.Entities.Roles;
 using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Order;
 
-namespace Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config
+namespace Epic_Bid.Infrastructure.Persistence
 {
     public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser, AppRole, string>
     {
