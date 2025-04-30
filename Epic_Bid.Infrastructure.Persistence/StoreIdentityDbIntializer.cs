@@ -4,7 +4,6 @@ using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Order;
 using Epic_Bid.Core.Domain.Entities.Products;
 using Epic_Bid.Core.Domain.Entities.Roles;
-using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

@@ -30,22 +30,23 @@ namespace Epic_Bid.API
 			var builder = WebApplication.CreateBuilder(args);
 
 
-            #region Configure Services
+			#region Configure Services
 
 
-            // Add services to the container.
-            #region Add Hangfire
-            builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("StoreIdentityContext")));
+			// Add services to the container.
+			#region Add Hangfire
+			builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("StoreIdentityContext")));
 			builder.Services.AddHangfireServer();
             #endregion
 			
             builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
 
-			builder.Services.AddControllers();
-            
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddControllers();
+
+
+			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 			builder.Services
 				.AddControllers()
@@ -68,19 +69,18 @@ namespace Epic_Bid.API
 				});
 				builder.Services.AddApplicationServices();
 			
+
 			builder.Services.AddPersistenceServices(builder.Configuration);
 			builder.Services.AddInfrastructureServices(builder.Configuration);
-            builder.Services.AddControllers().AddJsonOptions(options =>{
-			options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			builder.Services.AddControllers().AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 			});
 
-            builder.Services.AddIdentityServices(builder.Configuration);
-			
-            #endregion
+			builder.Services.AddIdentityServices(builder.Configuration);
 
+			#endregion
 
-            var app = builder.Build();
-            #region Update DataBase Initializer
 
             await app.InitializeAsync();
 
@@ -92,6 +92,7 @@ namespace Epic_Bid.API
 
             if (app.Environment.IsDevelopment())
 			{
+
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}

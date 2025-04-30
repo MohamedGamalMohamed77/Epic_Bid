@@ -1,4 +1,5 @@
 ﻿using Epic_Bid.Core.Domain.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,8 @@ namespace Epic_Bid.Core.Domain.Entities.Products
         public string UserName { get; set; } = string.Empty; // اسم المستخدم
         public int ProductId { get; set; } // مرتبط بالمنتج
         public Product Product { get; set; } = null!; // المنتج المرتبط بالمزايدة
-        public decimal BidAmount { get; set; } // المبلغ المزايد عليه
+		[Precision(18, 2)]
+		public decimal BidAmount { get; set; } // المبلغ المزايد عليه
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; 
     }
 
