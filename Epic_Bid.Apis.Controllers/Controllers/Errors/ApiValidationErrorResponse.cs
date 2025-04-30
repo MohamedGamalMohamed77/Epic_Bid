@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Apis.Controllers.Controllers.Errors
 {
-    public class ApiValidationErrorResponse:ApiResponse
+    public class ApiValidationErrorResponse: ApiResponse
     {
 		public required IEnumerable<ValidationError> Errors { get; set; }
 

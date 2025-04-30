@@ -16,6 +16,9 @@ using Epic_Bid.Core.Application.Mapping;
 using Epic_Bid.Infrastructure;
 using System.Text.Json.Serialization;
 using Hangfire;
+using Epic_Bid.Core.Domain.Contracts.Infrastructure;
+using Epic_Bid.Infrastructure.Basket_Repository;
+using Epic_Bid.Shared.HangFire;
 
 namespace Epic_Bid.API
 {
@@ -34,9 +37,10 @@ namespace Epic_Bid.API
 			#region Add Hangfire
 			builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("StoreIdentityContext")));
 			builder.Services.AddHangfireServer();
-			#endregion
+            #endregion
+			
+            builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
 
-			builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
 
 			builder.Services.AddControllers();
 
@@ -63,8 +67,8 @@ namespace Epic_Bid.API
 						});
 					};
 				});
-
-			builder.Services.AddApplicationServices();
+				builder.Services.AddApplicationServices();
+			
 
 			builder.Services.AddPersistenceServices(builder.Configuration);
 			builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -78,33 +82,30 @@ namespace Epic_Bid.API
 			#endregion
 
 
-			var app = builder.Build();
-			#region Update DataBase Initializer
-
-			await app.InitializeAsync();
+            await app.InitializeAsync();
 
 			#endregion
 
+			
+            // Configure the HTTP request pipeline.
 			app.UseMiddleware<ExceptionHandlerMiddleware>();
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
+
+            if (app.Environment.IsDevelopment())
 			{
 
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
-
-
 			app.UseHttpsRedirection();
-
-
-			app.UseStatusCodePagesWithReExecute("/errors/{0}");
+			//app.UseStatusCodePagesWithReExecute("/errors/{0}");
 			app.UseStaticFiles();
-
 			app.UseAuthentication();
 			app.UseAuthorization();
-			app.UseHangfireDashboard("/dashboard");
-			app.MapControllers();
+            app.UseHangfireDashboard("/dashboard", new DashboardOptions
+            {
+                Authorization = new[] { new AllowAllUsersAuthorizationFilter() }
+            });
+            app.MapControllers();
 
 			app.Run();
 		}

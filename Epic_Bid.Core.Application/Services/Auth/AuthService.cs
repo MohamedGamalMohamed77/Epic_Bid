@@ -110,7 +110,11 @@ namespace Epic_Bid.Core.Application.Services.Auth
 
 		public async Task<UserDto> RegisterAsync(RegisterDto model)
 		{
-			var user = new ApplicationUser()
+			if(await EmailExists(model.Email))
+                throw new BadRequestException("Email already exists");
+            
+
+            var user = new ApplicationUser()
 			{
 
 				DisplayName = model.DisplayName,

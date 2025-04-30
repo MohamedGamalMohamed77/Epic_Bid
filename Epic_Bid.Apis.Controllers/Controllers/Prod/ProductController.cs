@@ -1,10 +1,14 @@
 ﻿using Epic_Bid.Apis.Controllers.Controllers.Base;
+using Epic_Bid.Apis.Controllers.Controllers.Errors;
 using Epic_Bid.Apis.Controllers.UploadImageHandlerExtension;
 using Epic_Bid.Core.Application.Abstraction.Models.ProductDt;
 using Epic_Bid.Core.Application.Abstraction.Services;
+using Epic_Bid.Core.Application.Abstraction.Services.Auth;
+using Epic_Bid.Core.Domain.Entities.Order;
 using Epic_Bid.Core.Domain.Entities.Products;
 using Epic_Bid.Shared;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,11 +19,13 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Apis.Controllers.Controllers.Prod
 {
-    public class ProductController(IServiceManager _serviceManager) : BaseApiController
+    public class ProductController(IServiceManager _serviceManager, IAuthService _authService) : BaseApiController
     {
         #region GetAllProducts
         // GetAllProductsAsync  
         [HttpGet("GetAllProducts")]
+        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IReadOnlyList<ProductDto>>> GetAllProducts([FromQuery] ProductParamQuery? param)
         {
             var Products = await _serviceManager.ProductService.GetAllProductsAsync(param);
@@ -30,6 +36,9 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
         #region GetProductById
         // GetProductByIdAsync
         [HttpGet("GetProductById")]
+        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<ProductByIdDto>> GetProductById(int id)
         {
             var Product = await _serviceManager.ProductService.GetProductByIdAsync(id);
@@ -50,6 +59,9 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
         #region GetReviewOfProductId
         // GetReviewOfProductId
         [HttpGet("GetReviewOfProductId")]
+        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IReadOnlyList<ReviewDto>>> GetReviewOfProductId(int ProductId)
         {
             var Reviews = await _serviceManager.ProductService.GetReviewsOfProductId(ProductId);
@@ -60,11 +72,16 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
         #region AddProduct
         // AddProduct
         [HttpPost("AddProduct")]
+        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
         [Authorize]
-        public async Task<ActionResult<CreateProductDto>> AddProduct( CreateProductDto CreatedProduct)
+        public async Task<ActionResult<CreateProductDto>> AddProduct(CreateProductDto CreatedProduct)
         {
             //get the user id by claim
-            var UserId = HttpContext.User.FindFirst(ClaimTypes.PrimarySid)?.Value;
+            var user = await _authService.GetCurrentUser(User);
+            var UserId = user.Id;
             if (string.IsNullOrEmpty(UserId))
             {
                 return Unauthorized("User not found");
@@ -72,13 +89,13 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
             if (CreatedProduct.IsAuction)
             {
                 if (CreatedProduct.AuctionStartTime == null || CreatedProduct.AuctionEndTime == null)
-                    throw new Exception("Auction time must be provided for auction products.");
+                    return BadRequest("Auction time must be provided for auction products.");
 
                 if (CreatedProduct.AuctionEndTime <= CreatedProduct.AuctionStartTime)
-                    throw new Exception("Auction end time must be after start time.");
+                    return BadRequest("Auction end time must be after start time.");
             }
             // Add the ImageFile
-            CreatedProduct.ImageUrl = UploadImageHandler.UploadImage(CreatedProduct.ImageUploaded);
+            //CreatedProduct.ImageUrl = UploadImageHandler.UploadImage(CreatedProduct.ImageUploaded);
             var Product = await _serviceManager.ProductService.AddProductAsync(CreatedProduct, UserId);
             return Ok(Product);
         }
@@ -87,15 +104,20 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
         #region Update Product
         // AddProduct
         [HttpPut("UpdateProduct")]
+        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
         [Authorize]
         public async Task<ActionResult<CreateProductDto>> UpdateProduct(CreateProductDto updateProduct)
         {
-            var userId = HttpContext.User.FindFirst(ClaimTypes.PrimarySid)?.Value;
+            var user = await _authService.GetCurrentUser(User);
+            var userId = user.Id;
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized("User not authenticated or token is invalid");
             }
-            updateProduct.ImageUrl = UploadImageHandler.UploadImage(updateProduct.ImageUploaded);
+            //updateProduct.ImageUrl = UploadImageHandler.UploadImage(updateProduct.ImageUploaded);
             var product = await _serviceManager.ProductService.UpdateProductAsync(updateProduct, userId);
             return Ok(product);
         }
@@ -104,10 +126,15 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
 
         #region Delete Product
         [HttpDelete("DeleteProduct")]
+        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
         [Authorize]
         public async Task<IActionResult> DeleteProduct(int productId)
         {
-            var userId = HttpContext.User.FindFirst(ClaimTypes.PrimarySid)?.Value;
+            var user = await _authService.GetCurrentUser(User);
+            var userId = user.Id;
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized("User not found");
@@ -120,11 +147,16 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Prod
 
         #region Add Review
         [HttpPost("AddReview")]
+        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
         [Authorize]
         public async Task<ActionResult<AddReviewDto>> AddReview(AddReviewDto reviewDto)
         {
-            var userId = HttpContext.User.FindFirst(ClaimTypes.PrimarySid)?.Value;
-            var UserName = HttpContext.User.FindFirst(ClaimTypes.GivenName)?.Value;
+            var user = await _authService.GetCurrentUser(User);
+            var userId = user.Id;
+            var UserName = user.DisplayName;
 
             if (string.IsNullOrEmpty(userId) && string.IsNullOrEmpty(UserName))
             {

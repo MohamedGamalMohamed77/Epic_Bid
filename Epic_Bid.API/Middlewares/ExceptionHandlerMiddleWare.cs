@@ -1,5 +1,6 @@
 ﻿using Epic_Bid.Apis.Controllers.Controllers.Errors;
 using Epic_Bid.Core.Application.Exceptions;
+using System.Diagnostics;
 using System.Net;
 
 namespace Epic_Bid.API.Middlewares
@@ -24,28 +25,24 @@ namespace Epic_Bid.API.Middlewares
 		public async Task InvokeAsync(HttpContext httpContext)
 		{
 			try
-			{
-				await _next(httpContext);
+            {
+                await _next.Invoke(httpContext);
 
-				//if (httpContext.Response.StatusCode == (int)HttpStatusCode.NotFound)
-				//{
-				//	var response = new ApiResponse((int)HttpStatusCode.NotFound, $"the requested endpoint : {httpContext.Request.Path}not found");
-
-				//	 await httpContext.Response.WriteAsync(response.ToString());
-				//}
-			}
-			catch (Exception ex)
+                // EndpointNotFound
+				await NotFoundEndPointHandler(httpContext);
+            }
+            catch (Exception ex)
 			{
 
 				#region Logging :TODO
-				if (_environment.IsDevelopment())
-				{
-					_logger.LogError(ex, ex.Message);
+				//if (_environment.IsDevelopment())
+				//{
+				//	_logger.LogError(ex, ex.Message);
 
-				}
-				else
-				{
-				}
+				//}
+				//else
+				//{
+				//}
 				#endregion
 
 				await HandleExceptions(httpContext, ex);
@@ -53,17 +50,32 @@ namespace Epic_Bid.API.Middlewares
 
 		}
 
-		private async Task HandleExceptions(HttpContext httpContext, Exception ex)
+        private static async Task NotFoundEndPointHandler(HttpContext httpContext)
+        {
+            if (httpContext.Response.StatusCode == StatusCodes.Status404NotFound)
+            {
+                var respone = new ApiResponse(StatusCodes.Status404NotFound, $"Endpoint {httpContext.Request.Path} Not Found");
+                await httpContext.Response.WriteAsJsonAsync(respone);
+            }
+			if(httpContext.Response.StatusCode == StatusCodes.Status401Unauthorized)
+			{
+                var respone = new ApiResponse(StatusCodes.Status401Unauthorized, $"Not Unauthorized");
+                await httpContext.Response.WriteAsJsonAsync(respone);
+            }
+		
+
+        }
+		
+
+        private async Task HandleExceptions(HttpContext httpContext, Exception ex)
 		{
 			ApiResponse response;
 			switch (ex)
 			{
+				
 				case NotFoundException:
-					httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-					httpContext.Response.ContentType = "application/json";
-					response = new ApiResponse(404, ex.Message);
-
-					await httpContext.Response.WriteAsync(response.ToString()!);
+					httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+					await httpContext.Response.WriteAsJsonAsync(new ApiResponse(404, ex.Message));
 					break;
 
 				case ValidationException validationException:
@@ -89,14 +101,13 @@ namespace Epic_Bid.API.Middlewares
 					break;
 
 				default:
-					response = _environment.IsDevelopment() ?
-							new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString())
-							:
-							new ApiExceptionResponse((int)HttpStatusCode.InternalServerError);
-
-					httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+					response = new ApiExceptionResponse(StatusCodes.Status500InternalServerError, ex.Message, ex.StackTrace?.ToString());
+					httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 					httpContext.Response.ContentType = "application/json";
 					await httpContext.Response.WriteAsync(response.ToString()!);
+					//httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+					//response = new ApiExceptionResponse(500, ex.Message, ex.StackTrace?.ToString());
+					//await httpContext.Response.WriteAsJsonAsync(response.ToString());
 					break;
 			}
 		}
