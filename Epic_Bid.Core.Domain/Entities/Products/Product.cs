@@ -46,6 +46,8 @@ namespace Epic_Bid.Core.Domain.Entities.Products
         public decimal? CurrentBid { get; set; } // أعلى مزايدة حالية
         public string? CurrentWinnerUserId { get; set; } // المستخدم اللي عامل أعلى مزايدة
         public bool IsAuctionClosed { get; set; } = false; // هل المزاد انتهى؟ 
+        public string? AuctionCloseJobId { get; set; }
+        public string? AuctionEmailJobId { get; set; }
         public ICollection<AuctionBid>? AuctionBids { get; set; } = new HashSet<AuctionBid>(); // المزايدات على المنتج
         #endregion
 

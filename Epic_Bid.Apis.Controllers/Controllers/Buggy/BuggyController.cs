@@ -36,7 +36,7 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Buggy
         public IActionResult ThrowError()
         {
             // رمي استثناء متعمد عشان نشوف الـ Middleware بيتعامل معاه ازاي
-            throw new Exception("هذا خطأ متعمد لاختبار الـ Middleware!");
+            throw new Exception();
         }
         
        

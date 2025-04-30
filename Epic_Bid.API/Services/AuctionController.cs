@@ -1,14 +1,9 @@
 ﻿using Epic_Bid.Apis.Controllers.Controllers.Base;
-using Epic_Bid.Apis.Controllers.Controllers.Errors;
 using Epic_Bid.Core.Application.Abstraction.Services.AuctionServ;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.IProductServ;
-using Epic_Bid.Core.Domain.Entities.Order;
 using Epic_Bid.Shared;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,23 +13,19 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Apis.Controllers.Controllers.Auct
 {
-    public class AuctionController(IAuctionService _auctionService, IEmailService _emailservice,IProductService productService,IAuthService authService): BaseApiController
+    public class AuctionController(IAuctionService _auctionService, IEmailService _emailservice,IProductService productService): BaseApiController
     {
         [HttpPost("Bid")]
-        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PlaceBid([FromBody] PlaceBidRequestDto request)
         {
-            //var userId = HttpContext.User.FindFirstValue(ClaimTypes.GroupSid);
-            //var username = HttpContext.User.FindFirstValue(ClaimTypes.GivenName);
-            var user = await authService.GetCurrentUser(User);
-            if (string.IsNullOrEmpty(user.Id) && string.IsNullOrEmpty(user.DisplayName))
+            var userId = HttpContext.User.FindFirst(ClaimTypes.PrimarySid)?.Value;
+            var username = HttpContext.User.FindFirst(ClaimTypes.GivenName)?.Value;
+            if (string.IsNullOrEmpty(userId) && string.IsNullOrEmpty(username))
             {
                 return Unauthorized("User not authenticated." );
             }
-            request.UserId = user.Id;
-            request.UserName = user.DisplayName;
+            request.UserId = userId;
+            request.UserName = username;
             try
             {
                 await _auctionService.PlaceBidAsync(request);
@@ -47,9 +38,6 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Auct
         }
         //get auction for product
         [HttpGet("GetAuctionForProduct")]
-        [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAuctionForProduct(int productId)
         {
             // if action is closed, show the winner
@@ -66,7 +54,7 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Auct
                 return NotFound("No bids found for this product." );
             }
             // check if the auction is closed
-            if (product.IsAuctionClosed)
+            if (!product.IsAuctionClosed)
             {
                 return Ok(new { message = "Auction is closed.", winner = auction.FirstOrDefault().UserName, bidAmount = auction.FirstOrDefault().BidAmount ,auction});
             }
@@ -93,7 +81,5 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Auct
             await _auctionService.CloseAuctionAsync(productId);
             return Ok( "Auction closed manually." );
         }
-       
-
     }
 }

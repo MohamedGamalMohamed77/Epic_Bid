@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Core.Application.Services.Auth
 {
-    public class EmailService(IOptions<EmailSettings> _emailSettings, IConfiguration _configeration) : IEmailService
+    public class EmailService(IOptions<EmailSettings> _emailSettings, IWebHostEnvironment _env, IConfiguration _configeration) : IEmailService
 	{
 		private readonly EmailSettings emailSettings = _emailSettings.Value;
 		#region Send Email Async
@@ -49,8 +49,8 @@ namespace Epic_Bid.Core.Application.Services.Auth
 
             var builder = new BodyBuilder();
 
-            var filePath = "..\\..\\Epic_Bid-main\\Epic_Bid.Shared\\TemplateHtml\\WinnerAuciton.html";
-
+            var filePath = Path.Combine(_env.WebRootPath,"TemplateHtml", "WinnerAuciton.html"); // Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "TemplateHtml", "WinnerAuciton.html");
+            Console.WriteLine(filePath);
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"Email template not found at {filePath}");
 
@@ -59,7 +59,7 @@ namespace Epic_Bid.Core.Application.Services.Auth
                 .Replace("{{UserName}}", emailWinnerData.Username)
                 .Replace("{{ProductName}}", emailWinnerData.Productname)
                 .Replace("{{FinalPrice}}", emailWinnerData.Finlaprice.ToString("N2"))
-                .Replace("{{Auction To End}}", emailWinnerData.AuctionEndDate.ToString("dd/MM/yyyy hh:mm tt"));
+                .Replace("{{Auction To End}}", emailWinnerData.AuctionEndDate?.ToString("dd/MM/yyyy hh:mm tt"));
 
             builder.HtmlBody = fullBody;
             message.Body = builder.ToMessageBody();

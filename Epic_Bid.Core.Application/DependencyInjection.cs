@@ -31,9 +31,9 @@ namespace Epic_Bid.Core.Application
 
 
 
-			services.AddScoped(typeof(IBasketService), typeof(BasketService));
-
-			services.AddScoped(typeof(Func<IBasketService>), (serviceProvider) =>
+            //services.AddScoped(typeof(IBasketService), typeof(BasketService));
+            services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped(typeof(Func<IBasketService>), (serviceProvider) =>
 			{
 				return () => serviceProvider.GetRequiredService<IBasketService>();
 			});

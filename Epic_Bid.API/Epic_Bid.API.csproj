@@ -27,4 +27,10 @@
 	  <Folder Include="wwwroot\Images\Products\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\TemplateHtml\WinnerAuciton.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

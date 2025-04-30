@@ -11,7 +11,7 @@ namespace Epic_Bid.Shared
         public  string  Username  { get; set; } = null!;
         public string   Productname { get; set; } = null!;
         public decimal  Finlaprice { get; set; }
-        public DateTime AuctionEndDate { get; set; }
+        public DateTime? AuctionEndDate { get; set; }
 
     }
 }
