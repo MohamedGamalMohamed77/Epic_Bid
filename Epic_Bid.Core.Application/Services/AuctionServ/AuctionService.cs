@@ -1,33 +1,16 @@
 ﻿using AutoMapper;
 using Epic_Bid.Core.Application.Abstraction.Services.AuctionServ;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using Epic_Bid.Core.Application.SpecificationImplementation.AuctionSpec;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
-using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Products;
-using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
 using Epic_Bid.Shared;
 using Hangfire;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 
 namespace Epic_Bid.Core.Application.Services.AuctionServ
 {
-    public class AuctionService(IUnitOfWork _unitOfWork, IMapper _mapper, IEmailService _emailService) : IAuctionService
+	public class AuctionService(IUnitOfWork _unitOfWork, IMapper _mapper, IEmailService _emailService) : IAuctionService
     {
         #region Place Bid
         public async Task<bool> PlaceBidAsync(PlaceBidRequestDto request)
@@ -144,7 +127,7 @@ namespace Epic_Bid.Core.Application.Services.AuctionServ
             emailWinnerDataDto.Finlaprice = bids.FirstOrDefault()!.BidAmount;
             //Email Of The Winner to send the email
             var winnerBidId = bids.FirstOrDefault()!.UserId;
-            var WinnerBid = await _unitOfWork.GetRepository<AuctionBid>().GetUserByIdAsycn(winnerBidId);
+            var WinnerBid = await _unitOfWork.GetRepository<AuctionBid>().GetUserByIdAsync(winnerBidId);
             var WinnerEmail = WinnerBid!.Email;
             if (WinnerEmail == null)
             {

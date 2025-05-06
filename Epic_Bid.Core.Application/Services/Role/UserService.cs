@@ -1,6 +1,6 @@
 ﻿using Epic_Bid.Core.Application.Abstraction.Models.Role;
 using Epic_Bid.Core.Application.Abstraction.Services.Role;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using Epic_Bid.Core.Domain.Entities.Auth;
 using Epic_Bid.Core.Domain.Entities.Roles;
 using Microsoft.AspNetCore.Http.HttpResults;

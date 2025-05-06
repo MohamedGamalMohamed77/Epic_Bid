@@ -2,7 +2,7 @@
 using Epic_Bid.Core.Application.Abstraction.Common;
 using Epic_Bid.Core.Application.Abstraction.Models.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using Epic_Bid.Core.Application.Extensions;
 using Epic_Bid.Core.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Http.HttpResults;

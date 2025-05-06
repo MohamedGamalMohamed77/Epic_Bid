@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Epic_Bid.Core.Application.Abstraction.Services.Basket;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using Epic_Bid.Core.Domain.Contracts.Infrastructure;
 using Epic_Bid.Core.Domain.Entities.Basket;
 using Epic_Bid.Shared.Models.Basket;

@@ -13,13 +13,19 @@ namespace Epic_Bid.Core.Domain.Entities.Order
         {
             
         }
-        public Order(string buyerEmail, Address shippingAddress, DeliveryMethod deliveryMethod, IReadOnlyList<OrderItem> items, decimal subtotal)
+        public Order(string buyerEmail,
+            Address shippingAddress,
+            DeliveryMethod deliveryMethod,
+            IReadOnlyList<OrderItem> items,
+            decimal subtotal,
+            string paymentIntentId)
         {
             BuyerEmail = buyerEmail;
             ShippingAddress = shippingAddress;
             DeliveryMethod = deliveryMethod;
             Items = items;
             Subtotal = subtotal;
+            PaymentIntentId = paymentIntentId;
         }
 
         public string BuyerEmail { get; set; }

@@ -3,6 +3,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+		<BrowserLinkEnabled>false</BrowserLinkEnabled>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

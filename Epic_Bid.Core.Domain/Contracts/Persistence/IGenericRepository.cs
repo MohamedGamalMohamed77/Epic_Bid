@@ -17,7 +17,7 @@ namespace Epic_Bid.Core.Domain.Contracts.Persistence
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
-        Task<ApplicationUser?> GetUserByIdAsycn(string id);
+        Task<ApplicationUser?> GetUserByIdAsync(string id);
         #region With Specificatoin
         Task<IReadOnlyList<TEntity>> GetAllAsync(ISpecification<TEntity> Specification);
         Task<TEntity?> GetByIdAsync(ISpecification<TEntity> Specification);

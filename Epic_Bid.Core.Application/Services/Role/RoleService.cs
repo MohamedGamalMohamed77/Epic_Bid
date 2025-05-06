@@ -1,5 +1,5 @@
 ﻿using Epic_Bid.Core.Application.Abstraction.Services.Role;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using Epic_Bid.Core.Domain.Entities.Roles;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;

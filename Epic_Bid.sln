@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epic_Bid.Infrastructure.Per
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epic_Bid.Shared", "Epic_Bid.Shared\Epic_Bid.Shared.csproj", "{5920AA33-0406-48D9-8328-9B502DEB8A26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epic_Bid.API", "Epic_Bid.API\Epic_Bid.API.csproj", "{65FC6CA6-3EF9-4826-825F-7376F640ADF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epic_Bid.API", "Epic_Bid.API\Epic_Bid.API.csproj", "{65FC6CA6-3EF9-4826-825F-7376F640ADF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

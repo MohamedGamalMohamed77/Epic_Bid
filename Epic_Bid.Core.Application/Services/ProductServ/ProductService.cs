@@ -4,7 +4,7 @@ using Epic_Bid.Core.Application.Abstraction.Models.ProductDt;
 using Epic_Bid.Core.Application.Abstraction.Services.AuctionServ;
 using Epic_Bid.Core.Application.Abstraction.Services.Auth;
 using Epic_Bid.Core.Application.Abstraction.Services.IProductServ;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using Epic_Bid.Core.Application.Services.AuctionServ;
 using Epic_Bid.Core.Application.SpecificationImplementation;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
@@ -177,7 +177,7 @@ namespace Epic_Bid.Core.Application.Services.ProductServ
                         Username = ""
                     };
 
-                    var emailJobId = _backgroundJobClient.Schedule<IAuctionService>(
+                    var emailJobId =  _backgroundJobClient.Schedule<IAuctionService>(
                         x => x.SendEmailToWinner(product.Id, "Winner!", emailData), timeRemaining);
 
                     // Store job IDs in product

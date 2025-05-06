@@ -1,24 +1,15 @@
-using Epic_Bid.API.Middlewares;
-using Epic_Bid.Infrastructure.Persistence;
-using Epic_Bid.Apis.Controllers.Controllers.Errors;
-using Microsoft.AspNetCore.Mvc;
-using Epic_Bid.Apis.Controllers;
-using Epic_Bid.Core.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Stripe;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Epic_Bid.Core.Domain.Contracts.Persistence;
 using Epic_Bid.API.Extensions;
-using Epic_Bid.Infrastructure.Persistence._IdentityAndData.Config;
+using Epic_Bid.API.Middlewares;
+using Epic_Bid.Apis.Controllers.Controllers.Errors;
 using Epic_Bid.Core.Application;
-using Epic_Bid.Core.Application.Mapping;
 using Epic_Bid.Infrastructure;
-using System.Text.Json.Serialization;
-using Hangfire;
-using Epic_Bid.Core.Domain.Contracts.Infrastructure;
-using Epic_Bid.Infrastructure.Basket_Repository;
+using Epic_Bid.Infrastructure.Persistence;
 using Epic_Bid.Shared.HangFire;
+using Hangfire;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Epic_Bid.API
 {
@@ -37,12 +28,7 @@ namespace Epic_Bid.API
 			#region Add Hangfire
 			builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("StoreIdentityContext")));
 			builder.Services.AddHangfireServer();
-            #endregion
-			
-            builder.Services.AddControllers().AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly);
-
-
-			builder.Services.AddControllers();
+			#endregion
 
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -66,46 +52,82 @@ namespace Epic_Bid.API
 							Errors = errors
 						});
 					};
-				});
-				builder.Services.AddApplicationServices();
-			
+				})
+				.AddApplicationPart(typeof(Apis.Controllers.AssemblyInformation).Assembly)
+				.AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			})
+				;
+
+
+			builder.Services.AddApplicationServices();
 
 			builder.Services.AddPersistenceServices(builder.Configuration);
 			builder.Services.AddInfrastructureServices(builder.Configuration);
-			builder.Services.AddControllers().AddJsonOptions(options =>
-			{
-				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-			});
-
 			builder.Services.AddIdentityServices(builder.Configuration);
 
+			builder.Services.AddCors(corsOptions =>
+						{
+							corsOptions.AddPolicy("EpicBidPolicy", policyBuilder =>
+							{
+								policyBuilder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+
+							});
+						});
+
+			builder.Services.AddSwaggerGen(c =>
+			{
+				var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+				if (File.Exists(xmlPath))
+				{
+					c.IncludeXmlComments(xmlPath);
+				}
+			});
+			#endregion
+
+			var app = builder.Build();
+
+			#region Update Database
+			try
+			{
+				await app.InitializeAsync();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Startup Error: " + ex.Message);
+				throw;
+			}
+
 			#endregion
 
 
-            await app.InitializeAsync();
-
-			#endregion
-
-			
-            // Configure the HTTP request pipeline.
+			// Configure the HTTP request pipeline.
 			app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-            if (app.Environment.IsDevelopment())
+			if (app.Environment.IsDevelopment())
 			{
 
-				app.UseSwagger();
-				app.UseSwaggerUI();
+				app.UseSwagger(); 
+				app.UseSwaggerUI(c =>
+				{
+					c.SwaggerEndpoint("/swagger/v1/swagger.json", "Epic Bid API V1");
+				});
 			}
 			app.UseHttpsRedirection();
 			//app.UseStatusCodePagesWithReExecute("/errors/{0}");
 			app.UseStaticFiles();
+
+			app.UseCors("EpicBidPolicy");
+
 			app.UseAuthentication();
 			app.UseAuthorization();
-            app.UseHangfireDashboard("/dashboard", new DashboardOptions
-            {
-                Authorization = new[] { new AllowAllUsersAuthorizationFilter() }
-            });
-            app.MapControllers();
+			app.UseHangfireDashboard("/dashboard", new DashboardOptions
+			{
+				Authorization = new[] { new AllowAllUsersAuthorizationFilter() }
+			});
+			app.MapControllers();
 
 			app.Run();
 		}

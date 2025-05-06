@@ -3,6 +3,7 @@ using Epic_Bid.Core.Application.Abstraction.Services.Auth;
 using Epic_Bid.Core.Domain.Entities.Products;
 using Epic_Bid.Shared;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -32,7 +33,7 @@ namespace Epic_Bid.Core.Application.Services.Auth
 			builder.TextBody = email.Body;
 			mail.Body = builder.ToMessageBody();
 			using var smtp = new SmtpClient();
-			await smtp.ConnectAsync(emailSettings.Host, emailSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
+			await smtp.ConnectAsync(emailSettings.Host, emailSettings.Port, MailKit.Security.SecureSocketOptions.SslOnConnect);
 			await smtp.AuthenticateAsync(emailSettings.Email, emailSettings.Password);
 			await smtp.SendAsync(mail);
 			await smtp.DisconnectAsync(true);

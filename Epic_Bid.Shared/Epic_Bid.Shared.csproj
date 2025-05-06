@@ -14,4 +14,10 @@
     <None Include="D:\Final Project\Epic_Bid-main\Epic_Bid-main\Epic_Bid.Shared\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+
 </Project>

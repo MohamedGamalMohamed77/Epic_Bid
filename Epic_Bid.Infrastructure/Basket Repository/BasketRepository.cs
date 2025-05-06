@@ -1,12 +1,7 @@
 ﻿using Epic_Bid.Core.Domain.Contracts.Infrastructure;
 using Epic_Bid.Core.Domain.Entities.Basket;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Epic_Bid.Infrastructure.Basket_Repository
 {

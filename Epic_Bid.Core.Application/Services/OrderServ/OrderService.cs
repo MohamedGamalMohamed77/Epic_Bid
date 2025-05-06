@@ -1,5 +1,5 @@
 ﻿using Epic_Bid.Core.Application.Abstraction.Services.IOrderServ;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using Epic_Bid.Core.Application.SpecificationImplementation.OrderSpec;
 using Epic_Bid.Core.Domain.Contracts.Infrastructure;
 using Epic_Bid.Core.Domain.Contracts.Persistence;
@@ -65,7 +65,8 @@ namespace Epic_Bid.Core.Application.Services.OrderServ
                 throw new NotFoundException(nameof(DeliveryMethod), DelvieryMethodId);
             }
             //5.Create Order
-            var Order = new Order(BuyerEmail, ShippingAddress, DeliveryMethod, OrderItems, SubTotal);
+
+            var Order = new Order(BuyerEmail, ShippingAddress, DeliveryMethod, OrderItems, SubTotal, Basket?.PaymentIntentId!);
 
             try
             {
@@ -93,7 +94,7 @@ namespace Epic_Bid.Core.Application.Services.OrderServ
             {
                 throw new NotFoundException(nameof(Order), OrderId);
             }
-            return Order;
+            return Order!;
 
         }
 

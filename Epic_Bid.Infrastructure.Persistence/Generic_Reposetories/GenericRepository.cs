@@ -36,7 +36,7 @@ namespace Epic_Bid.Infrastructure.Persistence.Generic_Reposetories
         => _Dbcontext.Set<TEntity>().Remove(entity);
 
 
-        public async Task<ApplicationUser?> GetUserByIdAsycn(string id)
+        public async Task<ApplicationUser?> GetUserByIdAsync(string id)
         => await _Dbcontext.Set<ApplicationUser>().FirstOrDefaultAsync(i => i.Id == id);
         public void Update(TEntity entity)
         => _Dbcontext.Set<TEntity>().Update(entity);

@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Epic_Bid.Apis.Controllers.Controllers.Auct
 {
-    public class AuctionController(IAuctionService _auctionService, IEmailService _emailservice,IProductService productService,IAuthService authService): BaseApiController
+    public class AuctionController(IAuctionService _auctionService ,IProductService productService,IAuthService authService): BaseApiController
     {
         [HttpPost("Bid")]
         [ProducesResponseType(typeof(IReadOnlyList<DeliveryMethod>), StatusCodes.Status200OK)]
@@ -68,7 +68,7 @@ namespace Epic_Bid.Apis.Controllers.Controllers.Auct
             // check if the auction is closed
             if (product.IsAuctionClosed)
             {
-                return Ok(new { message = "Auction is closed.", winner = auction.FirstOrDefault().UserName, bidAmount = auction.FirstOrDefault().BidAmount ,auction});
+                return Ok(new { message = "Auction is closed.", winner = auction.FirstOrDefault()!.UserName, bidAmount = auction.FirstOrDefault()!.BidAmount ,auction});
             }
 
             return Ok(auction);

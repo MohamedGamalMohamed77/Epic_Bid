@@ -1,5 +1,5 @@
 ﻿using Epic_Bid.Apis.Controllers.Controllers.Errors;
-using Epic_Bid.Core.Application.Exceptions;
+using Epic_Bid.Shared.Exceptions;
 using System.Diagnostics;
 using System.Net;
 

@@ -38,7 +38,7 @@ namespace Epic_Bid.Apis.Controllers.OrderController
         {
             var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
             var ShippingAddress = _Mapper.Map<AddressDto, Address>(OrderDto.ShippingAddress);
-            var Order = await _OrderService.CreateOrderAsync( BuyerEmail, OrderDto.BasketId, OrderDto.DeliverMethodId, ShippingAddress);
+            var Order = await _OrderService.CreateOrderAsync( BuyerEmail!, OrderDto.BasketId, OrderDto.DeliverMethodId, ShippingAddress);
             if(Order is null)
                 return BadRequest(new ApiResponse(400, "Problem Creating Order"));
             return Ok(Order);
@@ -52,7 +52,7 @@ namespace Epic_Bid.Apis.Controllers.OrderController
         public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForSpecificUser()
         {
             var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
-            var Orders = await _OrderService.GetOrdersForSpecificUserAsync(BuyerEmail);
+            var Orders = await _OrderService.GetOrdersForSpecificUserAsync(BuyerEmail!);
             if (Orders is null)
                 return NotFound(new ApiResponse(404, "There is No Orders For This User"));
             var mappedOrders = _Mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(Orders);
