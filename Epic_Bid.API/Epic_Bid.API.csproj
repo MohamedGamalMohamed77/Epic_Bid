@@ -7,6 +7,7 @@
 		<BrowserLinkEnabled>false</BrowserLinkEnabled>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>1591</NoWarn>
+		<UserSecretsId>65cef2c5-6b67-4416-8a59-2b24b1f10fdd</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
